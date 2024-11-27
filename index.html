@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Association d'Affaires Publiques et Internationales</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <style>
+        /* Variables CSS personnalisées */
+        :root {
+            --primary: #7B051A;
+            --secondary: #333;
+            --accent: #FFB800;
+            --text-primary: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+        }
+
+        /* Styles généraux */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styles du header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Bouton hamburger */
+        #hamburger-button {
+            position: relative;
+            z-index: 20;
+            border-color: var(--primary);
+        }
+
+        #hamburger-button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Menu mobile */
+        #mobile-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #mobile-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Boutons de langue */
+        .language-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .language-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .language-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Logo et titre */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container img {
+            width: 3rem;
+            height: 3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover img {
+            transform: scale(1.1);
+        }
+
+        .site-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .site-title {
+                display: block;
+            }
+        }
+
+        .hover-effect:hover img {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .btn {
+            @apply px-6 py-3 rounded-full font-bold inline-flex items-center transition-colors duration-300;
+        }
+        .btn-primary {
+            @apply bg-blue-500 text-white hover:bg-blue-600;
+        }
+        .btn-secondary {
+            @apply bg-green-500 text-white hover:bg-green-600;
+        }
+        .btn-accent {
+            @apply bg-yellow-500 text-gray-800 hover:bg-yellow-600;
+        }
+        .btn-hover-effect {
+            @apply transition-transform duration-300 hover:scale-105;
+        }
+        .mini-calendar {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mini-calendar:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .mini-calendar-header {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .mini-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            padding: 1.5rem;
+            background: #f8fafc;
+        }
+
+        .mini-calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .mini-calendar-day:hover {
+            background: #f0f7ff;
+            transform: scale(1.1);
+            z-index: 2;
+            border-color: #4A90E2;
+        }
+
+        .mini-calendar-day.has-event {
+            color: #4A90E2;
+            font-weight: 600;
+            background: #f0f7ff;
+        }
+
+        .mini-calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #4A90E2;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
+        }
+
+        .upcoming-events-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .upcoming-events-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .upcoming-event-item {
+            display: flex;
+            gap: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid #eef2f7;
+        }
+
+        .upcoming-event-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-image-container {
+            flex: 0 0 250px;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        .event-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .upcoming-event-item:hover .event-image-container img {
+            transform: scale(1.05);
+        }
+
+        .event-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a202c;
+            line-height: 1.2;
+        }
+
+        .event-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+
+        .event-time, .event-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        .event-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #f7fafc;
+            color: #4a5568;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-events svg {
+            color: #a0aec0;
+            margin-bottom: 1rem;
+        }
+
+        .no-events p {
+            color: #4a5568;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-events .sub-text {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .upcoming-event-item {
+                flex-direction: column;
+            }
+
+            .event-image-container {
+                flex: 0 0 200px;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .calendar-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calendar-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #4A90E2, #357ABD);
+        }
+
+        .calendar-section::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(74,144,226,0.1) 0%, rgba(74,144,226,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        /* Styles pour le bouton retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover svg {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <header class="header">
+        <nav class="bg-white px-4 lg:px-6 py-4">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="logo-container">
+                    <img src="logo.svg" alt="AAPI Logo" class="w-12 h-12">
+                    <span class="site-title">AAPI</span>
+                </a>
+                
+                <button id="hamburger-button" class="lg:hidden flex items-center px-3 py-2 border-2 rounded-lg transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Navigation Desktop -->
+                <div class="hidden lg:flex lg:items-center lg:w-auto">
+                    <ul class="flex flex-col lg:flex-row lg:space-x-8 lg:mt-0">
+                        <li><a href="index.html" class="nav-link active py-2" data-lang="home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link py-2" data-lang="presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link py-2" data-lang="activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link py-2" data-lang="team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link py-2" data-lang="planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link py-2" data-lang="contact">Contact</a></li>
+                    </ul>
+                    <div class="lg:ml-8 flex space-x-3">
+                        <button class="language-btn active" data-lang="fr">FR</button>
+                        <button class="language-btn" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Mobile -->
+                <div id="mobile-menu" class="hidden w-full lg:hidden mt-4 bg-white rounded-lg shadow-lg absolute top-full left-0 right-0">
+                    <div class="px-4 py-3">
+                        <ul class="flex flex-col space-y-2">
+                            <li><a href="index.html" class="nav-link active block py-2 px-3 rounded-lg" data-lang="home">Accueil</a></li>
+                            <li><a href="presentation.html" class="nav-link block py-2 px-3 rounded-lg" data-lang="presentation">Présentation</a></li>
+                            <li><a href="activities.html" class="nav-link block py-2 px-3 rounded-lg" data-lang="activities">Activités</a></li>
+                            <li><a href="equipe.html" class="nav-link block py-2 px-3 rounded-lg" data-lang="team">Équipe</a></li>
+                            <li><a href="planning.html" class="nav-link block py-2 px-3 rounded-lg" data-lang="planning">Planning</a></li>
+                            <li><a href="contact.html" class="nav-link block py-2 px-3 rounded-lg" data-lang="contact">Contact</a></li>
+                        </ul>
+                        <div class="flex justify-center space-x-3 mt-4 pb-2 border-t border-gray-100 pt-4">
+                            <button class="language-btn active" data-lang="fr">FR</button>
+                            <button class="language-btn" data-lang="en">EN</button>
+                            <button class="language-btn" data-lang="es">ES</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        // Gestion du header lors du défilement
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Gestion du menu hamburger
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('show');
+            
+            this.classList.toggle('text-primary');
+            this.classList.toggle('bg-primary/10');
+        });
+
+        // Fermeture du menu mobile lors du clic sur un lien
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('show');
+                document.getElementById('hamburger-button').classList.remove('text-primary', 'bg-primary/10');
+            });
+        });
+
+        // Gestion des boutons de langue
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+    <main class="mt-16">
+        <section id="accueil" class="hero text-white text-center py-20">
+            <div class="container mx-auto text-gray-800">
+                <img src="logo.svg" alt="AAPI Logo" class="mx-auto mb-8 w-40 h-auto shadow-lg rounded-full">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 animate-text bg-gradient-to-r from-red-800 via-red-600 to-blue-800 text-transparent bg-clip-text" data-i18n="title">Public and International Affairs Association (PIAA)/ L'Association d'affaires publiques et internationales (AAPI) at uOttawa's GSPIA/ÉSAPI</h1>
+                <p class="text-lg mb-8 animate-text font-light" data-i18n="subtitle">Votre porte d'entrée vers le monde des affaires publiques et internationales à l'Université d'Ottawa</p>
+                <a href="presentation.html" class="btn btn-primary btn-hover-effect animate-text shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1" data-i18n="learnMore">
+                    En savoir plus
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 inline-block" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+                    <div class="image-container group" data-aos="fade-right">
+                        <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+                            <img src="etudiantsouriant.png"
+                                 alt="Groupe d'étudiants souriant" 
+                                 class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                    </div>
+                    <div class="text-container space-y-8" data-aos="fade-left">
+                        <h2 class="text-4xl font-bold text-gray-800 leading-tight" data-i18n="communityTitle">
+                            L'AAPI : Votre communauté étudiante
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-xl text-gray-600 leading-relaxed" data-i18n="communityDescription1">
+                                L'Association d'affaires publiques et internationales (AAPI) est le cœur battant de l'École Supérieure des Affaires Publiques et Internationales (ÉSAPI). Notre mission est de créer un espace dynamique où étudiants, enseignants et professionnels se rencontrent, échangent et grandissent ensemble.
+                            </p>
+                            <p class="text-xl text-gray-600 leading-relaxed" data-i18n="communityDescription2">
+                                Fiers de notre engagement, nous avons récemment lancé une bourse étudiante unique, reflet de notre solidarité et de nos valeurs partagées.
+                            </p>
+                        </div>
+                        <a href="equipe.html" 
+                           class="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl" 
+                           data-i18n="discoverTeam">
+                            <span>Découvrir notre équipe</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                    <div class="text-container space-y-8 order-2 md:order-1" data-aos="fade-right">
+                        <h2 class="text-4xl font-bold text-gray-800 leading-tight" data-i18n="teamTitle">
+                            Une équipe engagée pour vous
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-xl text-gray-600 leading-relaxed" data-i18n="teamDescription1">
+                                L'AAPI, c'est avant tout une équipe passionnée, élue par vos soins, qui travaille sans relâche pour enrichir votre expérience universitaire. De la présidence aux responsables d'événements, chacun œuvre pour créer une communauté vibrante et solidaire.
+                            </p>
+                            <p class="text-xl text-gray-600 leading-relaxed" data-i18n="teamDescription2">
+                                Envie d'en savoir plus ? Venez nous rencontrer au bureau FSS 2034. Nous sommes là pour vous écouter, répondre à vos questions et partager nos projets.
+                            </p>
+                        </div>
+                        <a href="planning.html" 
+                           class="inline-flex items-center px-8 py-4 bg-green-600 text-white font-semibold rounded-xl shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl" 
+                           data-i18n="viewSchedules">
+                            <span>Consulter nos horaires</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="image-container group order-1 md:order-2" data-aos="fade-left">
+                        <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+                            <img src="etudiantquiparle.png"
+                                 alt="Étudiant en train de parler dans une grande salle" 
+                                 class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="image-container">
+                        <video class="w-full md:w-full lg:w-full xl:h-[600px] mx-auto rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105" autoplay loop muted playsinline preload="auto">
+                            <source src="./activité-page-de présentation.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
+                    <div class="text-container space-y-6">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="activitiesTitle">Des activités pour tous les goûts</h2>
+                        <p class="text-lg text-gray-600 leading-relaxed" data-i18n="activitiesDescription1">
+                            L'AAPI, c'est aussi une multitude d'événements pensés pour vous. De nos soirées sociales conviviales à nos conférences thématiques stimulantes, en passant par nos rencontres professionnelles enrichissantes, chaque activité est une opportunité de grandir, d'apprendre et de tisser des liens durables.
+                        </p>
+                        <ul class="list-disc list-inside text-lg text-gray-600 leading-relaxed">
+                            <li data-i18n="socialNights">Soirées sociales pour se détendre et networker</li>
+                            <li data-i18n="thematicConferences">Conférences thématiques avec des experts du domaine</li>
+                            <li data-i18n="professionalMeetings">Rencontres professionnelles pour booster votre carrière</li>
+                        </ul>
+                        <p class="text-lg text-gray-600 leading-relaxed" data-i18n="activitiesDescription2">
+                            Chaque événement est une pierre à l'édifice de votre parcours à l'ÉSAPI. Rejoignez-nous et faites de votre expérience universitaire un moment inoubliable !
+                        </p>
+                        <a href="activities.html" class="inline-block px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 ease-in-out transform hover:-translate-y-1" data-i18n="discoverEvents">
+                            Découvrir nos événements
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="calendar-section py-16 bg-gradient-to-r from-gray-50 to-red-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4 text-gray-800" data-i18n="eventCalendar">Calendrier des Événements</h2>
+                <p class="text-center text-gray-600 mb-8">Découvrez nos prochains événements et activités</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div id="upcomingEvents" class="space-y-4">
+                        <!-- Les événements seront ajoutés ici dynamiquement -->
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="planning.html" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Voir tous les événements
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Fonction pour afficher les événements à venir
+            function displayUpcomingEvents() {
+                const events = JSON.parse(localStorage.getItem('events')) || {};
+                const upcomingEventsDiv = document.getElementById('upcomingEvents');
+                
+                // Convertir les événements en tableau et les trier par date
+                const sortedEvents = Object.entries(events)
+                    .map(([date, event]) => ({ date, ...event }))
+                    .filter(event => new Date(event.date) >= new Date())
+                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .slice(0, 3); // Afficher seulement les 3 prochains événements
+
+                if (sortedEvents.length === 0) {
+                    upcomingEventsDiv.innerHTML = '<p class="text-center text-gray-500">Aucun événement à venir</p>';
+                    return;
+                }
+
+                upcomingEventsDiv.innerHTML = sortedEvents.map(event => `
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${event.title}</h3>
+                                <p class="text-sm text-gray-600 mt-1">${formatDate(event.date)}</p>
+                                <p class="text-sm text-gray-500">${event.time}</p>
+                                ${event.description ? `<p class="mt-2 text-gray-700">${event.description}</p>` : ''}
+                            </div>
+                            <span class="px-3 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-sm">
+                                ${event.type}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Formater la date en français
+            function formatDate(date) {
+                return new Date(date).toLocaleDateString('fr-FR', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            // Mettre à jour les événements quand la page est chargée
+            document.addEventListener('DOMContentLoaded', displayUpcomingEvents);
+
+            // Mettre à jour les événements quand le stockage local change
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'events') {
+                    displayUpcomingEvents();
+                }
+            });
+        </script>
+
+        <section id="equipe" class="py-16 bg-gradient-to-br from-red-100 to-gray-100">
+            <div class="container mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-800 animate-text" data-i18n="ourTeam">Notre Équipe</h2>
+                <div class="relative flex flex-col items-center">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                        <img alt="GSPIA logo" class="w-full h-auto max-w-2xl" src="logo.svg"/>
+                    </div>
+                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="President's photo" class="w-full h-full object-cover" src="Ruben-benjamin.png"/>
+                            </div>
+                            <h1 class="text-2xl font-bold text-gray-800 animate-text">Boni Ruben-Benjamin Dombo</h1>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="president">Président</p>
+                            <p class="text-sm text-gray-600 animate-text">bdomb054@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Vice-President's photo" class="w-full h-full object-cover" src="Florian-placide.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Florian Placide</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="vicePresident">Vice-Président</p>
+                            <p class="text-sm text-gray-600 animate-text">fplac049@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Vice-Présidente des finances' photo" class="w-full h-full object-cover" src="Ange.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Ange Hadassa Gertrude Kodji</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="vicePresidentFinance">Vice-Présidente des finances</p>
+                            <p class="text-sm text-gray-600 animate-text">akodj010@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Vice-Présidente - Interne et Social' photo" class="w-full h-full object-cover" src="marie.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Marie Christiana Joseph</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="vicePresidentInternal">Vice-Présidente - Interne et Social</p>
+                            <p class="text-sm text-gray-600 animate-text">mjose098@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Représentante des étudiants francophones de 1re année' photo" class="w-full h-full object-cover" src="Rania-fawaz.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Rania Fawaz</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="representativeFrenchFirstYear">Représentante des étudiants francophones de 1re année</p>
+                            <p class="text-sm text-gray-600 animate-text">rfawa068@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Représentante des étudiants anglophones de 3e année' photo" class="w-full h-full object-cover" src="Hanna-taylor.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Hanna Taylor Milne</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="representativeEnglishThirdYear">Représentante des étudiants anglophones de 3e année</p>
+                            <p class="text-sm text-gray-600 animate-text">hmiln095@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Représentant des étudiants de 2e année' photo" class="w-full h-full object-cover" src="Kevin-oberoi.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Kevin Oberoi</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="representativeSecondYear">Représentant des étudiants de 2e année</p>
+                            <p class="text-sm text-gray-600 animate-text">kober050@uOttawa.ca</p>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+                            <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-red-500">
+                                <img alt="Représentant des étudiants internationaux' photo" class="w-full h-full object-cover" src="Régis-kalou.png"/>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 animate-text">Regis Privat Kalou</h2>
+                            <p class="text-lg text-red-600 animate-text" data-i18n="representativeInternational">Représentant des étudiants internationaux</p>
+                            <p class="text-sm text-gray-600 animate-text">rkalo050@uOttawa.ca</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="equipe.html" class="block text-center mt-12 text-red-600 font-bold text-lg hover:text-red-800 transition-colors duration-300 animate-text" data-i18n="learnMoreAboutTeam">En savoir plus sur notre équipe</a>
+            </div>
+        </section>
+
+        <section id="localisation" class="py-16 bg-gradient-to-br from-gray-100 to-red-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-800 animate-text" data-i18n="location">Localisation</h2>
+                <div class="map-container rounded-lg overflow-hidden shadow-xl">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2800.635119228707!2d-75.68304568449717!3d45.42152967910163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce05b25f5113af%3A0x8a6a51e1316104c7!2sFaculty%20of%20Social%20Sciences%20(FSS)%2C%20University%20of%20Ottawa!5e0!3m2!1sen!2sca!4v1633023423000!5m2!1sen!2sca" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16">
+            <div class="container mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 animate-text" data-i18n="contactUs">Contactez-nous</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold mb-4 animate-text" data-i18n="contactForm">Formulaire de contact</h3>
+                        <form id="contactForm">
+                            <input type="text" placeholder="Nom" class="w-full p-3 mb-4 border rounded-lg" data-i18n="name" required>
+                            <input type="email" placeholder="Email" class="w-full p-3 mb-4 border rounded-lg" data-i18n="email" required>
+                            <textarea placeholder="Message" rows="4" class="w-full p-3 mb-4 border rounded-lg" data-i18n="message" required></textarea>
+                            <button type="submit" class="btn btn-primary btn-hover-effect animate-text" data-i18n="send">Envoyer</button>
+                        </form>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold mb-4 animate-text" data-i18n="contactInfo">Informations de contact</h3>
+                        <p class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span data-i18n="contactAddress">Local FSS 2034, Université d'Ottawa</span>
+                        </p>
+                        <p class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <span data-i18n="contactEmail">aapi@uottawa.ca</span>
+                        </p>
+                        <p class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span data-i18n="contactPhone">+1 (613) 123-4567</span>
+                        </p>
+                    </div>
+                </div>
+                <a href="contact.html" class="block text-center mt-8 text-accent-color font-bold animate-text" data-i18n="fullContactPage">Page de contact complète</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="contact">Contact</h3>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span data-i18n="contactAddress">Local FSS 2034, Université d'Ottawa</span>
+                    </p>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span data-i18n="contactEmail">council.conseil.api@gmail.com</span>
+                    </p>
+                    <p class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span data-i18n="contactPhone">+1 (613) 123-4567</span>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="socialMedia">Réseaux Sociaux</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.facebook.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            <span data-i18n="facebook">Facebook</span>
+                        </a></li>
+                        <li><a href="https://twitter.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                            <span data-i18n="twitter">Twitter</span>
+                        </a></li>
+                        <li><a href="https://www.instagram.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            <span data-i18n="instagram">Instagram</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="legal">Mentions Légales</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="text-white hover:text-accent-color" data-i18n="legalNotices">Mentions Légales</a></li>
+                        <li><a href="politique-confidentialite.html" class="text-white hover:text-accent-color" data-i18n="privacyPolicy">Politique de Confidentialité</a></li>
+                        <li><a href="conditions-utilisation.html" class="text-white hover:text-accent-color" data-i18n="termsOfUse">Conditions d'Utilisation</a></li>
+                        <li><a href="FAQ.html" class="text-white hover:text-accent-color" data-i18n="faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <span data-i18n="copyright">&copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton retour en haut -->
+    <button id="backToTop" class="back-to-top" aria-label="Retour en haut de la page">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <script>
+        // Gestion du bouton retour en haut
+        const backToTopButton = document.getElementById('backToTop');
+
+        function toggleBackToTop() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        }
+
+        // Afficher/masquer le bouton en fonction du défilement
+        window.addEventListener('scroll', toggleBackToTop);
+
+        // Animation de défilement fluide vers le haut
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+    <button class="dark-mode-toggle fixed top-4 right-4 text-2xl text-primary-color">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+
+    <script>
+        let events = JSON.parse(localStorage.getItem('events')) || {};
+        
+        // Fonction de débogage pour voir le contenu des événements
+        function debugEvents() {
+            console.log('Contenu du localStorage events:', events);
+            for (let date in events) {
+                console.log(`Date: ${date}`);
+                events[date].forEach((event, index) => {
+                    console.log(`Événement ${index + 1}:`, {
+                        title: event.title,
+                        time: event.time,
+                        description: event.description,
+                        hasImage: !!event.image,
+                        imageLength: event.image ? event.image.length : 0
+                    });
+                });
+            }
+        }
+
+        function updateMiniCalendar(month, year) {
+            const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            const miniCurrentMonth = document.getElementById('miniCurrentMonth');
+            const miniCalendarGrid = document.getElementById('miniCalendarGrid');
+            
+            if (!miniCurrentMonth || !miniCalendarGrid) {
+                console.error("Éléments du calendrier non trouvés");
+                return;
+            }
+
+            // Mise à jour du titre du mois
+            miniCurrentMonth.textContent = `${monthNames[month]} ${year}`;
+
+            // Calcul du premier jour du mois
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startingDay = firstDay.getDay();
+            const totalDays = lastDay.getDate();
+
+            // Récupération des événements
+            const events = JSON.parse(localStorage.getItem('events') || '{}');
+
+            // Génération de la grille du calendrier
+            let calendarHTML = '';
+            const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+
+            // Ajout des noms des jours
+            dayNames.forEach(day => {
+                calendarHTML += `<div class="mini-calendar-day font-semibold text-gray-600">${day}</div>`;
+            });
+
+            // Ajout des jours vides avant le premier jour du mois
+            for (let i = 0; i < startingDay; i++) {
+                calendarHTML += '<div class="mini-calendar-day opacity-0"></div>';
+            }
+
+            // Ajout des jours du mois
+            for (let day = 1; day <= totalDays; day++) {
+                const date = new Date(year, month, day);
+                const dateStr = date.toISOString().split('T')[0];
+                const hasEvent = events[dateStr] && events[dateStr].length > 0;
+                const isToday = new Date().toISOString().split('T')[0] === dateStr;
+                
+                const classes = [
+                    'mini-calendar-day',
+                    hasEvent ? 'has-event' : '',
+                    isToday ? 'bg-blue-100 font-bold' : ''
+                ].filter(Boolean).join(' ');
+
+                calendarHTML += `<div class="${classes}">${day}</div>`;
+            }
+
+            miniCalendarGrid.innerHTML = calendarHTML;
+        }
+
+        function initMiniCalendar() {
+            const today = new Date();
+            debugEvents(); // Afficher le contenu des événements au chargement
+            updateMiniCalendar(today.getMonth(), today.getFullYear());
+            updateUpcomingEvents();
+
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'events') {
+                    console.log('Changement détecté dans le localStorage');
+                    events = JSON.parse(e.newValue) || {};
+                    debugEvents(); // Afficher le contenu après modification
+                    updateMiniCalendar(today.getMonth(), today.getFullYear());
+                    updateUpcomingEvents();
+                }
+            });
+        }
+
+        function updateUpcomingEvents() {
+            const upcomingEvents = document.getElementById('upcomingEvents');
+            if (!upcomingEvents) {
+                console.error("Element 'upcomingEvents' non trouvé");
+                return;
+            }
+
+            try {
+                // Récupérer et parser les événements
+                const eventsStr = localStorage.getItem('events');
+                const events = JSON.parse(eventsStr || '{}');
+                
+                // Obtenir la date d'aujourd'hui (sans l'heure)
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Collecter tous les événements à venir
+                const upcomingEventsList = [];
+                
+                Object.entries(events).forEach(([dateStr, dateEvents]) => {
+                    const eventDate = new Date(dateStr);
+                    eventDate.setHours(0, 0, 0, 0);
+                    
+                    if (eventDate >= today) {
+                        dateEvents.forEach(event => {
+                            upcomingEventsList.push({
+                                date: eventDate,
+                                dateStr,
+                                ...event
+                            });
+                        });
+                    }
+                });
+                
+                // Trier par date et heure
+                upcomingEventsList.sort((a, b) => {
+                    const dateCompare = a.date - b.date;
+                    if (dateCompare === 0) {
+                        return a.time.localeCompare(b.time);
+                    }
+                    return dateCompare;
+                });
+                
+                // Vider le conteneur
+                upcomingEvents.innerHTML = '';
+                
+                // Afficher jusqu'à 5 événements à venir
+                if (upcomingEventsList.length > 0) {
+                    const eventsToShow = upcomingEventsList.slice(0, 5);
+                    
+                    eventsToShow.forEach(event => {
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'upcoming-event-item bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-102 mb-6';
+                        
+                        const formattedDate = event.date.toLocaleDateString('fr-FR', {
+                            weekday: 'long',
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+
+                        eventElement.innerHTML = `
+                            <div class="flex flex-col md:flex-row">
+                                ${event.image ? `
+                                    <div class="w-full md:w-1/3 relative">
+                                        <img src="${event.image}" 
+                                             alt="${event.title}" 
+                                             class="w-full h-48 md:h-full object-cover"
+                                             loading="lazy"
+                                             onerror="this.style.display='none'">
+                                    </div>
+                                ` : ''}
+                                <div class="flex-1 p-6">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="text-xl font-bold text-gray-800">${event.title}</h3>
+                                        <span class="text-sm font-medium text-blue-600">${event.time}</span>
+                                    </div>
+                                    <p class="text-gray-600 mb-2">${formattedDate}</p>
+                                    <p class="text-gray-700">${event.description}</p>
+                                </div>
+                            </div>
+                        `;
+                        
+                        upcomingEvents.appendChild(eventElement);
+                    });
+                } else {
+                    upcomingEvents.innerHTML = `
+                        <div class="text-center py-8">
+                            <p class="text-gray-600 text-lg">Aucun événement à venir pour le moment.</p>
+                            <a href="planning.html" class="inline-block mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300">
+                                Ajouter un événement
+                            </a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour des événements:', error);
+                upcomingEvents.innerHTML = '<p class="text-red-600">Une erreur est survenue lors du chargement des événements.</p>';
+            }
+        }
+
+        // Initialisation et gestion des événements
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page chargée, mise à jour des événements...');
+            initMiniCalendar();
+            updateUpcomingEvents();
+            
+            // Écouter les changements dans le localStorage
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'events') {
+                    console.log('Changement détecté dans le localStorage');
+                    updateUpcomingEvents();
+                }
+            });
+
+            // Écouter l'événement personnalisé
+            window.addEventListener('eventsUpdated', () => {
+                console.log('Événement de mise à jour reçu');
+                updateUpcomingEvents();
+            });
+        });
+
+        const translations = {
+            fr: {
+                title: "Association d'Affaires Publiques et Internationales",
+                home: "Accueil",
+                presentation: "Présentation",
+                team: "Équipe",
+                activities: "Activités",
+                planning: "Planning",
+                contact: "Contact",
+                learnMore: "En savoir plus",
+                communityTitle: "L'AAPI : Votre communauté étudiante",
+                communityDescription1: "L'Association d'affaires publiques et internationales (AAPI) est le cœur battant de l'École Supérieure des Affaires Publiques et Internationales (ÉSAPI). Notre mission est de créer un espace dynamique où étudiants, enseignants et professionnels se rencontrent, échangent et grandissent ensemble.",
+                communityDescription2: "Fiers de notre engagement, nous avons récemment lancé une bourse étudiante unique, reflet de notre solidarité et de nos valeurs partagées.",
+                discoverTeam: "Découvrir notre équipe",
+                teamTitle: "Une équipe engagée pour vous",
+                teamDescription1: "L'AAPI, c'est avant tout une équipe passionnée, élue par vos soins, qui travaille sans relâche pour enrichir votre expérience universitaire. De la présidence aux responsables d'événements, chacun œuvre pour créer une communauté vibrante et solidaire.",
+                teamDescription2: "Envie d'en savoir plus ? Venez nous rencontrer au bureau FSS 2034. Nous sommes là pour vous écouter, répondre à vos questions et partager nos projets.",
+                viewSchedules: "Consulter nos horaires",
+                activitiesTitle: "Des activités pour tous les goûts",
+                activitiesDescription1: "L'AAPI, c'est aussi une multitude d'événements pensés pour vous. De nos soirées sociales conviviales à nos conférences thématiques stimulantes, en passant par nos rencontres professionnelles enrichissantes, chaque activité est une opportunité de grandir, d'apprendre et de tisser des liens durables.",
+                socialNights: "Soirées sociales pour se détendre et networker",
+                thematicConferences: "Conférences thématiques avec des experts du domaine",
+                professionalMeetings: "Rencontres professionnelles pour booster votre carrière",
+                activitiesDescription2: "Chaque événement est une pierre à l'édifice de votre parcours à l'ÉSAPI. Rejoignez-nous et faites de votre expérience universitaire un moment inoubliable !",
+                discoverEvents: "Découvrir nos événements",
+                eventCalendar: "Calendrier des Événements",
+                upcomingEvents: "Événements à venir",
+                viewAllEvents: "Voir tous les événements",
+                ourTeam: "Notre Équipe",
+                president: "Président",
+                vicePresident: "Vice-Président",
+                vicePresidentFinance: "Vice-Présidente des finances",
+                vicePresidentInternal: "Vice-Présidente - Interne et Social",
+                representativeFrenchFirstYear: "Représentante des étudiants francophones de 1re année",
+                representativeEnglishThirdYear: "Représentante des étudiants anglophones de 3e année",
+                representativeSecondYear: "Représentant des étudiants de 2e année",
+                representativeInternational: "Représentant des étudiants internationaux",
+                learnMoreAboutTeam: "En savoir plus sur notre équipe",
+                location: "Localisation",
+                contactUs: "Contactez-nous",
+                contactForm: "Formulaire de contact",
+                name: "Nom",
+                email: "Email",
+                message: "Message",
+                send: "Envoyer",
+                contactInfo: "Informations de contact",
+                contactAddress: "Local FSS 2034, Université d'Ottawa",
+                contactEmail: "aapi@uottawa.ca",
+                contactPhone: "+1 (613) 123-4567",
+                fullContactPage: "Page de contact complète",
+                contact: "Contact",
+                socialMedia: "Réseaux Sociaux",
+                legal: "Mentions Légales",
+                legalNotices: "Mentions Légales",
+                privacyPolicy: "Politique de Confidentialité",
+                termsOfUse: "Conditions d'Utilisation",
+                faq: "FAQ",
+                copyright: " 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés.",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram"
+            },
+            en: {
+                title: "Public and International Affairs Association",
+                home: "Home",
+                presentation: "Presentation",
+                team: "Team",
+                activities: "Activities",
+                planning: "Planning",
+                contact: "Contact",
+                learnMore: "Learn more",
+                communityTitle: "The AAPI: Your Student Community",
+                communityDescription1: "The Public and International Affairs Association (AAPI) is the beating heart of the School of Public and International Affairs (ÉSAPI). Our mission is to create a dynamic space where students, teachers, and professionals meet, exchange, and grow together.",
+                communityDescription2: "Proud of our commitment, we recently launched a unique student scholarship, reflecting our solidarity and shared values.",
+                discoverTeam: "Discover our team",
+                teamTitle: "A Dedicated Team for You",
+                teamDescription1: "The AAPI is first and foremost a passionate team, elected by you, who work tirelessly to enrich your university experience. From the presidency to the event managers, each one strives to create a vibrant and supportive community.",
+                teamDescription2: "Want to know more? Come meet us at the FSS 2034 office. We are here to listen to you, answer your questions, and share our projects.",
+                viewSchedules: "View our schedules",
+                activitiesTitle: "Activities for All Tastes",
+                activitiesDescription1: "The AAPI is also a multitude of events designed for you. From our friendly social nights to our stimulating thematic conferences, through our enriching professional meetings, each activity is an opportunity to grow, learn, and build lasting ties.",
+                socialNights: "Social nights to relax and network",
+                thematicConferences: "Thematic conferences with domain experts",
+                professionalMeetings: "Professional meetings to boost your career",
+                activitiesDescription2: "Each event is a cornerstone of your journey at ÉSAPI. Join us and make your university experience unforgettable!",
+                discoverEvents: "Discover our events",
+                eventCalendar: "Event Calendar",
+                upcomingEvents: "Upcoming Events",
+                viewAllEvents: "View all events",
+                ourTeam: "Our Team",
+                president: "President",
+                vicePresident: "Vice-President",
+                vicePresidentFinance: "Vice-President of Finance",
+                vicePresidentInternal: "Vice-President - Internal and Social",
+                representativeFrenchFirstYear: "Representative of French First-Year Students",
+                representativeEnglishThirdYear: "Representative of English Third-Year Students",
+                representativeSecondYear: "Representative of Second-Year Students",
+                representativeInternational: "Representative of International Students",
+                learnMoreAboutTeam: "Learn more about our team",
+                location: "Location",
+                contactUs: "Contact Us",
+                contactForm: "Contact Form",
+                name: "Name",
+                email: "Email",
+                message: "Message",
+                send: "Send",
+                contactInfo: "Contact Information",
+                contactAddress: "FSS 2034 Office, University of Ottawa",
+                contactEmail: "aapi@uottawa.ca",
+                contactPhone: "+1 (613) 123-4567",
+                fullContactPage: "Full Contact Page",
+                contact: "Contact",
+                socialMedia: "Social Media",
+                legal: "Legal",
+                legalNotices: "Legal Notices",
+                privacyPolicy: "Privacy Policy",
+                termsOfUse: "Terms of Use",
+                faq: "FAQ",
+                copyright: " 2023 Public and International Affairs Association. All rights reserved.",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram"
+            },
+            es: {
+                title: "Asociación de Asuntos Públicos e Internacionales",
+                home: "Inicio",
+                presentation: "Presentación",
+                team: "Equipo",
+                activities: "Actividades",
+                planning: "Planificación",
+                contact: "Contacto",
+                learnMore: "Aprende más",
+                communityTitle: "La AAPI: Tu comunidad estudiantil",
+                communityDescription1: "La Asociación de Asuntos Públicos e Internacionales (AAPI) es el corazón de la Escuela Superior de Asuntos Públicos e Internacionales (ÉSAPI). Nuestra misión es crear un espacio dinámico donde estudiantes, profesores y profesionales se encuentren, intercambien y crezcan juntos.",
+                communityDescription2: "Orgullosos de nuestro compromiso, recientemente lanzamos una beca estudiantil única, reflejo de nuestra solidaridad y valores compartidos.",
+                discoverTeam: "Descubre nuestro equipo",
+                teamTitle: "Un equipo comprometido para ti",
+                teamDescription1: "La AAPI es ante todo un equipo apasionado, elegido por ustedes, que trabaja sin descanso para enriquecer su experiencia universitaria. Desde la presidencia hasta los responsables de eventos, cada uno se esfuerza por crear una comunidad vibrante y solidaria.",
+                teamDescription2: "¿Quieres saber más? Ven a conocernos en la oficina FSS 2034. Estamos aquí para escucharte, responder a tus preguntas y compartir nuestros proyectos.",
+                viewSchedules: "Ver nuestros horarios",
+                activitiesTitle: "Actividades para todos los gustos",
+                activitiesDescription1: "La AAPI también es una multitud de eventos diseñados para ti. Desde nuestras noches sociales amigables hasta nuestras conferencias temáticas estimulantes, pasando por nuestras reuniones profesionales enriquecedoras, cada actividad es una oportunidad para crecer, aprender y construir lazos duraderos.",
+                socialNights: "Noches sociales para relajarse y hacer redes",
+                thematicConferences: "Conferencias temáticas con expertos en el campo",
+                professionalMeetings: "Reuniones profesionales para impulsar tu carrera",
+                activitiesDescription2: "Cada evento es un pilar de tu trayectoria en ÉSAPI. Únete a nosotros y haz de tu experiencia universitaria algo inolvidable!",
+                discoverEvents: "Descubre nuestros eventos",
+                eventCalendar: "Calendario de Eventos",
+                upcomingEvents: "Próximos Eventos",
+                viewAllEvents: "Ver todos los eventos",
+                ourTeam: "Nuestro Equipo",
+                president: "Presidente",
+                vicePresident: "Vicepresidente",
+                vicePresidentFinance: "Vicepresidenta de Finanzas",
+                vicePresidentInternal: "Vicepresidenta - Interna y Social",
+                representativeFrenchFirstYear: "Representante de Estudiantes de Primer Año en Francés",
+                representativeEnglishThirdYear: "Representante de Estudiantes de Tercer Año en Inglés",
+                representativeSecondYear: "Representante de Estudiantes de Segundo Año",
+                representativeInternational: "Representante de Estudiantes Internacionales",
+                learnMoreAboutTeam: "Aprende más sobre nuestro equipo",
+                location: "Ubicación",
+                contactUs: "Contáctanos",
+                contactForm: "Formulario de Contacto",
+                name: "Nombre",
+                email: "Correo Electrónico",
+                message: "Mensaje",
+                send: "Enviar",
+                contactInfo: "Información de Contacto",
+                contactAddress: "Oficina FSS 2034, Universidad de Ottawa",
+                contactEmail: "aapi@uottawa.ca",
+                contactPhone: "+1 (613) 123-4567",
+                fullContactPage: "Página de Contacto Completa",
+                contact: "Contacto",
+                socialMedia: "Redes Sociales",
+                legal: "Legal",
+                legalNotices: "Avisos Legales",
+                privacyPolicy: "Política de Privacidad",
+                termsOfUse: "Términos de Uso",
+                faq: "FAQ",
+                copyright: " 2023 Asociación de Asuntos Públicos e Internacionales. Todos los derechos reservados.",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram"
+            }
+        };
+
+        function translatePage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageButtons = document.querySelectorAll('.language-btn');
+            let currentLang = 'fr'; // Langue par défaut
+
+            languageButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const lang = button.getAttribute('data-lang');
+                    if (lang !== currentLang) {
+                        currentLang = lang;
+                        translatePage(currentLang);
+                    }
+                });
+            });
+
+            // Initial translation
+            translatePage(currentLang);
+        });
+    </script>
+    <script src="menu.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+/* Styles de transition de page */
+.page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    z-index: 9999;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+    pointer-events: none;
+}
+
+.page-transitioning .page-transition {
+    transform: scaleY(1);
+}
+
+.content-container {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform;
+}
+
+.page-transitioning .content-container {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Animation d'entrée */
+.content-visible .content-container {
+    animation: contentFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes contentFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Amélioration des transitions de navigation */
+.nav a {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav a::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.nav a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.nav a.active::before {
+    transform: scaleX(1);
+}

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page.title">Politique de Confidentialité - AAPI</title>
+    <link rel="stylesheet" href="../assets/css/base/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .privacy-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .privacy-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .privacy-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .privacy-nav {
+            position: sticky;
+            top: 100px;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .privacy-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .privacy-nav a:hover {
+            background: #f5f5f5;
+            color: var(--primary);
+            padding-left: 1.5rem;
+        }
+
+        .privacy-nav a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box i {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: var(--primary);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .table-of-contents {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .table-of-contents li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    
+    <header class="header">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.svg" class="mr-3 h-12" alt="AAPI Logo" />
+                </a>
+                
+                <!-- Bouton hamburger pour mobile -->
+                <button id="hamburger-button" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none" aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Menu principal -->
+                <div class="hidden lg:flex justify-between items-center w-full lg:w-auto lg:order-1" id="mobile-menu">
+                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <li>
+                            <a href="index.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.home">Accueil</a>
+                        </li>
+                        <li>
+                            <a href="presentation.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.presentation">Présentation</a>
+                        </li>
+                        <li>
+                            <a href="equipe.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.team">Équipe</a>
+                        </li>
+                        <li>
+                            <a href="activities.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.activities">Activités</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Boutons de langue -->
+                <div class="flex items-center lg:order-2">
+                    <div class="language-selector flex space-x-2 bg-gray-100 rounded-full p-1">
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('fr')" data-lang="fr">
+                            <span class="flag-icon flag-icon-fr"></span>
+                            FR
+                        </button>
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('en')" data-lang="en">
+                            <span class="flag-icon flag-icon-gb"></span>
+                            EN
+                        </button>
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('es')" data-lang="es">
+                            <span class="flag-icon flag-icon-es"></span>
+                            ES
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Script pour le menu hamburger -->
+    <script>
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+
+    <main class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Navigation latérale -->
+                <div class="lg:col-span-1">
+                    <div class="privacy-nav">
+                        <h3 class="text-xl font-bold mb-4" data-i18n="toc.title">Table des matières</h3>
+                        <nav>
+                            <a href="#introduction" class="active" data-i18n="toc.introduction">Introduction</a>
+                            <a href="#collecte" data-i18n="toc.collecte">Collecte des données</a>
+                            <a href="#utilisation" data-i18n="toc.utilisation">Utilisation des données</a>
+                            <a href="#protection" data-i18n="toc.protection">Protection des données</a>
+                            <a href="#droits" data-i18n="toc.droits">Vos droits</a>
+                            <a href="#cookies" data-i18n="toc.cookies">Cookies</a>
+                            <a href="#modifications" data-i18n="toc.modifications">Modifications</a>
+                            <a href="#contact" data-i18n="toc.contact">Contact</a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Contenu principal -->
+                <div class="lg:col-span-3">
+                    <h1 class="text-4xl font-bold mb-8" data-i18n="main.title">Politique de Confidentialité</h1>
+
+                    <div class="table-of-contents mb-8">
+                        <h2 class="text-xl font-bold mb-4" data-i18n="toc.overview">Aperçu rapide</h2>
+                        <ul>
+                            <li data-i18n="toc.overview.collect">Nous collectons uniquement les données nécessaires</li>
+                            <li data-i18n="toc.overview.protect">Vos données sont protégées et sécurisées</li>
+                            <li data-i18n="toc.overview.control">Vous gardez le contrôle de vos informations</li>
+                            <li data-i18n="toc.overview.share">Nous ne partageons pas vos données avec des tiers</li>
+                        </ul>
+                    </div>
+
+                    <section id="introduction" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="introduction.title">Introduction</h2>
+                        <p class="mb-4" data-i18n="introduction.description">L'AAPI s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles.</p>
+                        <div class="info-box">
+                            <i class="fas fa-shield-alt"></i>
+                            <p class="font-semibold" data-i18n="introduction.commitment">Notre engagement :</p>
+                            <p data-i18n="introduction.commitment.description">Protection maximale de vos données personnelles et transparence totale sur leur utilisation.</p>
+                        </div>
+                    </section>
+
+                    <section id="collecte" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="collecte.title">Collecte des données</h2>
+                        <p class="mb-4" data-i18n="collecte.description">Nous collectons les informations suivantes :</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li data-i18n="collecte.name">Nom et prénom</li>
+                            <li data-i18n="collecte.email">Adresse email universitaire</li>
+                            <li data-i18n="collecte.program">Programme d'études</li>
+                            <li data-i18n="collecte.year">Année d'études</li>
+                        </ul>
+                        <div class="info-box">
+                            <i class="fas fa-database"></i>
+                            <p data-i18n="collecte.purpose">Ces informations sont nécessaires pour la gestion de votre adhésion et la communication avec l'association.</p>
+                        </div>
+                    </section>
+
+                    <section id="utilisation" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="utilisation.title">Utilisation des données</h2>
+                        <p class="mb-4" data-i18n="utilisation.description">Vos données sont utilisées pour :</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li data-i18n="utilisation.manage">Gérer votre adhésion</li>
+                            <li data-i18n="utilisation.inform">Vous informer des événements</li>
+                            <li data-i18n="utilisation.improve">Améliorer nos services</li>
+                        </ul>
+                        <div class="info-box">
+                            <i class="fas fa-user-shield"></i>
+                            <p data-i18n="utilisation.share">Nous ne partageons jamais vos données avec des tiers sans votre consentement explicite.</p>
+                        </div>
+                    </section>
+
+                    <section id="protection" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="protection.title">Protection des données</h2>
+                        <p class="mb-4" data-i18n="protection.description">Nous mettons en place des mesures de sécurité appropriées pour protéger vos données personnelles contre tout accès non autorisé, modification, divulgation ou destruction. Ces mesures comprennent :</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li data-i18n="protection.encryption">Le chiffrement des données sensibles</li>
+                            <li data-i18n="protection.access">Des contrôles d'accès stricts</li>
+                            <li data-i18n="protection.backup">Des sauvegardes régulières</li>
+                            <li data-i18n="protection.monitoring">Une surveillance continue de nos systèmes</li>
+                        </ul>
+                    </section>
+
+                    <section id="droits" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="droits.title">Vos droits</h2>
+                        <p class="mb-4" data-i18n="droits.description">Conformément au RGPD, vous disposez des droits suivants concernant vos données personnelles :</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li data-i18n="droits.access">Droit d'accès à vos données</li>
+                            <li data-i18n="droits.rectification">Droit de rectification des données inexactes</li>
+                            <li data-i18n="droits.deletion">Droit à l'effacement ('droit à l'oubli')</li>
+                            <li data-i18n="droits.portability">Droit à la portabilité des données</li>
+                            <li data-i18n="droits.opposition">Droit d'opposition au traitement</li>
+                        </ul>
+                    </section>
+
+                    <section id="cookies" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="cookies.title">Cookies</h2>
+                        <p class="mb-4" data-i18n="cookies.description">Notre site utilise des cookies pour améliorer votre expérience de navigation. Les cookies sont de petits fichiers texte stockés sur votre appareil qui nous aident à :</p>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li data-i18n="cookies.session">Maintenir votre session</li>
+                            <li data-i18n="cookies.preferences">Mémoriser vos préférences</li>
+                            <li data-i18n="cookies.analytics">Analyser l'utilisation de notre site</li>
+                        </ul>
+                        <p class="mb-4" data-i18n="cookies.control">Vous pouvez contrôler et/ou supprimer les cookies comme vous le souhaitez via les paramètres de votre navigateur.</p>
+                    </section>
+
+                    <section id="modifications" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="modifications.title">Modifications</h2>
+                        <p class="mb-4" data-i18n="modifications.description">Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications entrent en vigueur dès leur publication sur notre site. Nous vous encourageons à consulter régulièrement cette page pour rester informé des éventuelles mises à jour.</p>
+                    </section>
+
+                    <section id="contact" class="privacy-section">
+                        <h2 class="text-2xl font-bold mb-4" data-i18n="contact.title">Contact</h2>
+                        <p class="mb-4" data-i18n="contact.description">Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter :</p>
+                        <div class="info-box space-y-4">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-lg" data-i18n="contact.email">Email : council.conseil.api@gmail.com</p>
+                            </div>
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 mt-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <div class="text-lg leading-relaxed" data-i18n="contact.address">
+                                    Local FSS 2034<br>
+                                    Université d'Ottawa<br>
+                                    120 Université Privé<br>
+                                    Ottawa, ON K1N 6N5
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                <p class="text-lg" data-i18n="contact.phone">Téléphone : +1 (613) 123-4567</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold mb-6 animate-text" data-i18n="footer.contact">Contact</h3>
+                    <div class="space-y-4">
+                        <p class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span data-i18n="footer.location">Local FSS 2034, Université d'Ottawa</span>
+                        </p>
+                        <p class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <a href="mailto:council.conseil.api@gmail.com" class="text-sm hover:text-accent-color transition-colors" data-i18n="footer.email">council.conseil.api@gmail.com</a>
+                        </p>
+                        <p class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span data-i18n="footer.phone">+1 (613) 123-4567</span>
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 animate-text" data-i18n="footer.socialmedia">Réseaux Sociaux</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.facebook.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            <span data-i18n="footer.facebook">Facebook</span>
+                        </a></li>
+                        <li><a href="https://twitter.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                            <span data-i18n="footer.twitter">Twitter</span>
+                        </a></li>
+                        <li><a href="https://www.instagram.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            <span data-i18n="footer.instagram">Instagram</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 animate-text" data-i18n="footer.legal">Mentions Légales</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="text-white hover:text-accent-color" data-i18n="footer.legal.mentions">Mentions Légales</a></li>
+                        <li><a href="politique-confidentialite.html" class="text-white hover:text-accent-color" data-i18n="footer.legal.privacy">Politique de Confidentialité</a></li>
+                        <li><a href="conditions-utilisation.html" class="text-white hover:text-accent-color" data-i18n="footer.legal.conditions">Conditions d'Utilisation</a></li>
+                        <li><a href="FAQ.html" class="text-white hover:text-accent-color" data-i18n="footer.legal.faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <span data-i18n="footer.copyright">&copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Barre de progression
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Navigation active au défilement
+        const sections = document.querySelectorAll('.privacy-section');
+        const navLinks = document.querySelectorAll('.privacy-nav a');
+
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: "-50px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').slice(1) === id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Défilement fluide
+        document.querySelectorAll('.privacy-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').slice(1);
+                const targetElement = document.getElementById(targetId);
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fonction pour changer la langue
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Mettre à jour l'apparence des boutons de langue
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-red-500', 'text-white');
+                } else {
+                    btn.classList.remove('bg-red-500', 'text-white');
+                }
+            });
+
+            // Sauvegarder la préférence de langue
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Charger la langue préférée au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
+            changeLanguage(savedLang);
+        });
+
+        // Exemple de traductions (à compléter avec les traductions réelles)
+        const translations = {
+            fr: {
+                "page.title": "Politique de Confidentialité - AAPI",
+                "nav.home": "Accueil",
+                "nav.presentation": "Présentation",
+                "nav.team": "Équipe",
+                "nav.activities": "Activités",
+                "nav.planning": "Planning",
+                "nav.contact": "Contact",
+                "nav.language": "FR",
+                "toc.title": "Table des matières",
+                "toc.introduction": "Introduction",
+                "toc.collecte": "Collecte des données",
+                "toc.utilisation": "Utilisation des données",
+                "toc.protection": "Protection des données",
+                "toc.droits": "Vos droits",
+                "toc.cookies": "Cookies",
+                "toc.modifications": "Modifications",
+                "toc.contact": "Contact",
+                "toc.overview": "Aperçu rapide",
+                "toc.overview.collect": "Nous collectons uniquement les données nécessaires",
+                "toc.overview.protect": "Vos données sont protégées et sécurisées",
+                "toc.overview.control": "Vous gardez le contrôle de vos informations",
+                "toc.overview.share": "Nous ne partageons pas vos données avec des tiers",
+                "main.title": "Politique de Confidentialité",
+                "introduction.title": "Introduction",
+                "introduction.description": "L'AAPI s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles.",
+                "introduction.commitment": "Notre engagement :",
+                "introduction.commitment.description": "Protection maximale de vos données personnelles et transparence totale sur leur utilisation.",
+                "collecte.title": "Collecte des données",
+                "collecte.description": "Nous collectons les informations suivantes :",
+                "collecte.name": "Nom et prénom",
+                "collecte.email": "Adresse email universitaire",
+                "collecte.program": "Programme d'études",
+                "collecte.year": "Année d'études",
+                "collecte.purpose": "Ces informations sont nécessaires pour la gestion de votre adhésion et la communication avec l'association.",
+                "utilisation.title": "Utilisation des données",
+                "utilisation.description": "Vos données sont utilisées pour :",
+                "utilisation.manage": "Gérer votre adhésion",
+                "utilisation.inform": "Vous informer des événements",
+                "utilisation.improve": "Améliorer nos services",
+                "utilisation.share": "Nous ne partageons jamais vos données avec des tiers sans votre consentement explicite.",
+                "protection.title": "Protection des données",
+                "protection.description": "Nous mettons en place des mesures de sécurité appropriées pour protéger vos données personnelles contre tout accès non autorisé, modification, divulgation ou destruction. Ces mesures comprennent :",
+                "protection.encryption": "Le chiffrement des données sensibles",
+                "protection.access": "Des contrôles d'accès stricts",
+                "protection.backup": "Des sauvegardes régulières",
+                "protection.monitoring": "Une surveillance continue de nos systèmes",
+                "droits.title": "Vos droits",
+                "droits.description": "Conformément au RGPD, vous disposez des droits suivants concernant vos données personnelles :",
+                "droits.access": "Droit d'accès à vos données",
+                "droits.rectification": "Droit de rectification des données inexactes",
+                "droits.deletion": "Droit à l'effacement ('droit à l'oubli')",
+                "droits.portability": "Droit à la portabilité des données",
+                "droits.opposition": "Droit d'opposition au traitement",
+                "cookies.title": "Cookies",
+                "cookies.description": "Notre site utilise des cookies pour améliorer votre expérience de navigation. Les cookies sont de petits fichiers texte stockés sur votre appareil qui nous aident à :",
+                "cookies.session": "Maintenir votre session",
+                "cookies.preferences": "Mémoriser vos préférences",
+                "cookies.analytics": "Analyser l'utilisation de notre site",
+                "cookies.control": "Vous pouvez contrôler et/ou supprimer les cookies comme vous le souhaitez via les paramètres de votre navigateur.",
+                "modifications.title": "Modifications",
+                "modifications.description": "Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications entrent en vigueur dès leur publication sur notre site. Nous vous encourageons à consulter régulièrement cette page pour rester informé des éventuelles mises à jour.",
+                "contact.title": "Contact",
+                "contact.description": "Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter :",
+                "contact.email": "Email : council.conseil.api@gmail.com",
+                "contact.address": "Adresse : Local FSS 2034, Université d'Ottawa, 120 Université Privé, Ottawa, ON K1N 6N5",
+                "contact.phone": "Téléphone : +1 (613) 123-4567",
+                "footer.contact": "Contact",
+                "footer.location": "Local FSS 2034, Université d'Ottawa",
+                "footer.email": "council.conseil.api@gmail.com",
+                "footer.phone": "+1 (613) 123-4567",
+                "footer.socialmedia": "Réseaux Sociaux",
+                "footer.facebook": "Facebook",
+                "footer.twitter": "Twitter",
+                "footer.instagram": "Instagram",
+                "footer.legal": "Mentions Légales",
+                "footer.legal.mentions": "Mentions Légales",
+                "footer.legal.privacy": "Politique de Confidentialité",
+                "footer.legal.conditions": "Conditions d'Utilisation",
+                "footer.legal.faq": "FAQ",
+                "footer.copyright": "&copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés."
+            },
+            en: {
+                "page.title": "Privacy Policy - AAPI",
+                "nav.home": "Home",
+                "nav.presentation": "Presentation",
+                "nav.team": "Team",
+                "nav.activities": "Activities",
+                "nav.planning": "Planning",
+                "nav.contact": "Contact",
+                "nav.language": "EN",
+                "toc.title": "Table of Contents",
+                "toc.introduction": "Introduction",
+                "toc.collecte": "Data Collection",
+                "toc.utilisation": "Data Usage",
+                "toc.protection": "Data Protection",
+                "toc.droits": "Your Rights",
+                "toc.cookies": "Cookies",
+                "toc.modifications": "Modifications",
+                "toc.contact": "Contact",
+                "toc.overview": "Quick Overview",
+                "toc.overview.collect": "We only collect necessary data",
+                "toc.overview.protect": "Your data is protected and secure",
+                "toc.overview.control": "You keep control of your information",
+                "toc.overview.share": "We do not share your data with third parties",
+                "main.title": "Privacy Policy",
+                "introduction.title": "Introduction",
+                "introduction.description": "AAPI is committed to protecting the privacy of its users. This privacy policy explains how we collect, use, and protect your personal data.",
+                "introduction.commitment": "Our Commitment:",
+                "introduction.commitment.description": "Maximum protection of your personal data and complete transparency about their use.",
+                "collecte.title": "Data Collection",
+                "collecte.description": "We collect the following information:",
+                "collecte.name": "First and last name",
+                "collecte.email": "University email address",
+                "collecte.program": "Study program",
+                "collecte.year": "Year of study",
+                "collecte.purpose": "This information is necessary for managing your membership and communication with the association.",
+                "utilisation.title": "Data Usage",
+                "utilisation.description": "Your data is used for:",
+                "utilisation.manage": "Manage your membership",
+                "utilisation.inform": "Inform you about events",
+                "utilisation.improve": "Improve our services",
+                "utilisation.share": "We never share your data with third parties without your explicit consent.",
+                "protection.title": "Data Protection",
+                "protection.description": "We implement appropriate security measures to protect your personal data against unauthorized access, modification, disclosure, or destruction. These measures include:",
+                "protection.encryption": "Encryption of sensitive data",
+                "protection.access": "Strict access controls",
+                "protection.backup": "Regular backups",
+                "protection.monitoring": "Continuous system monitoring",
+                "droits.title": "Your Rights",
+                "droits.description": "In accordance with GDPR, you have the following rights regarding your personal data:",
+                "droits.access": "Right to access your data",
+                "droits.rectification": "Right to rectify inaccurate data",
+                "droits.deletion": "Right to erasure ('right to be forgotten')",
+                "droits.portability": "Right to data portability",
+                "droits.opposition": "Right to object to processing",
+                "cookies.title": "Cookies",
+                "cookies.description": "Our site uses cookies to improve your browsing experience. Cookies are small text files stored on your device that help us:",
+                "cookies.session": "Maintain your session",
+                "cookies.preferences": "Remember your preferences",
+                "cookies.analytics": "Analyze site usage",
+                "cookies.control": "You can control and/or delete cookies as you wish through your browser settings.",
+                "modifications.title": "Modifications",
+                "modifications.description": "We reserve the right to modify this privacy policy at any time. Changes take effect as soon as they are published on our site. We encourage you to regularly check this page to stay informed of any updates.",
+                "contact.title": "Contact",
+                "contact.description": "For any questions regarding this privacy policy or to exercise your rights, you can contact us:",
+                "contact.email": "Email: council.conseil.api@gmail.com",
+                "contact.address": "Address: Room FSS 2034, University of Ottawa, 120 University Private, Ottawa, ON K1N 6N5",
+                "contact.phone": "Phone: +1 (613) 123-4567",
+                "footer.contact": "Contact",
+                "footer.location": "Location FSS 2034, University of Ottawa",
+                "footer.email": "council.conseil.api@gmail.com",
+                "footer.phone": "+1 (613) 123-4567",
+                "footer.socialmedia": "Social Media",
+                "footer.facebook": "Facebook",
+                "footer.twitter": "Twitter",
+                "footer.instagram": "Instagram",
+                "footer.legal": "Legal Notices",
+                "footer.legal.mentions": "Legal Notices",
+                "footer.legal.privacy": "Privacy Policy",
+                "footer.legal.conditions": "Terms of Use",
+                "footer.legal.faq": "FAQ",
+                "footer.copyright": "&copy; 2023 Association for Public and International Affairs. All rights reserved."
+            },
+            es: {
+                "page.title": "Política de Privacidad - AAPI",
+                "nav.home": "Inicio",
+                "nav.presentation": "Presentación",
+                "nav.team": "Equipo",
+                "nav.activities": "Actividades",
+                "nav.planning": "Planificación",
+                "nav.contact": "Contacto",
+                "nav.language": "ES",
+                "toc.title": "Tabla de Contenidos",
+                "toc.introduction": "Introducción",
+                "toc.collecte": "Recopilación de Datos",
+                "toc.utilisation": "Uso de Datos",
+                "toc.protection": "Protección de Datos",
+                "toc.droits": "Sus Derechos",
+                "toc.cookies": "Cookies",
+                "toc.modifications": "Modificaciones",
+                "toc.contact": "Contacto",
+                "toc.overview": "Vista Rápida",
+                "toc.overview.collect": "Recopilamos solo los datos necesarios",
+                "toc.overview.protect": "Sus datos están protegidos y seguros",
+                "toc.overview.control": "Usted mantiene el control de su información",
+                "toc.overview.share": "No compartimos sus datos con terceros",
+                "main.title": "Política de Privacidad",
+                "introduction.title": "Introducción",
+                "introduction.description": "AAPI se compromete a proteger la privacidad de sus usuarios. Esta política de privacidad explica cómo recopilamos, utilizamos y protegemos sus datos personales.",
+                "introduction.commitment": "Nuestro Compromiso:",
+                "introduction.commitment.description": "Máxima protección de sus datos personales y total transparencia sobre su uso.",
+                "collecte.title": "Recopilación de Datos",
+                "collecte.description": "Recopilamos la siguiente información:",
+                "collecte.name": "Nombre y apellido",
+                "collecte.email": "Dirección de correo electrónico universitaria",
+                "collecte.program": "Programa de estudios",
+                "collecte.year": "Año de estudio",
+                "collecte.purpose": "Esta información es necesaria para la gestión de su membresía y la comunicación con la asociación.",
+                "utilisation.title": "Uso de Datos",
+                "utilisation.description": "Sus datos se utilizan para:",
+                "utilisation.manage": "Gestionar su membresía",
+                "utilisation.inform": "Informarle sobre eventos",
+                "utilisation.improve": "Mejorar nuestros servicios",
+                "utilisation.share": "Nunca compartimos sus datos con terceros sin su consentimiento explícito.",
+                "protection.title": "Protección de Datos",
+                "protection.description": "Implementamos medidas de seguridad apropiadas para proteger sus datos personales contra acceso no autorizado, modificación, divulgación o destrucción. Estas medidas incluyen:",
+                "protection.encryption": "Cifrado de datos sensibles",
+                "protection.access": "Controles de acceso estrictos",
+                "protection.backup": "Copias de seguridad regulares",
+                "protection.monitoring": "Monitoreo continuo de nuestros sistemas",
+                "droits.title": "Sus Derechos",
+                "droits.description": "De acuerdo con el RGPD, tiene los siguientes derechos sobre sus datos personales:",
+                "droits.access": "Derecho de acceso a sus datos",
+                "droits.rectification": "Derecho de rectificación de datos inexactos",
+                "droits.deletion": "Derecho de supresión ('derecho al olvido')",
+                "droits.portability": "Derecho a la portabilidad de datos",
+                "droits.opposition": "Derecho de oposición al tratamiento",
+                "cookies.title": "Cookies",
+                "cookies.description": "Nuestro sitio utiliza cookies para mejorar su experiencia de navegación. Las cookies son pequeños archivos de texto almacenados en su dispositivo que nos ayudan a:",
+                "cookies.session": "Mantener su sesión",
+                "cookies.preferences": "Recordar sus preferencias",
+                "cookies.analytics": "Analizar el uso de nuestro sitio",
+                "cookies.control": "Puede controlar y/o eliminar las cookies como desee a través de la configuración de su navegador.",
+                "modifications.title": "Modificaciones",
+                "modifications.description": "Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento. Los cambios entran en vigor tan pronto como se publican en nuestro sitio. Le animamos a consultar regularmente esta página para mantenerse informado de las actualizaciones.",
+                "contact.title": "Contacto",
+                "contact.description": "Para cualquier pregunta sobre esta política de privacidad o para ejercer sus derechos, puede contactarnos:",
+                "contact.email": "Correo: council.conseil.api@gmail.com",
+                "contact.address": "Dirección: Sala FSS 2034, Universidad de Ottawa, 120 University Private, Ottawa, ON K1N 6N5",
+                "contact.phone": "Teléfono: +1 (613) 123-4567",
+                "footer.contact": "Contacto",
+                "footer.location": "Sala FSS 2034, Universidad de Ottawa",
+                "footer.email": "council.conseil.api@gmail.com",
+                "footer.phone": "+1 (613) 123-4567",
+                "footer.socialmedia": "Redes Sociales",
+                "footer.facebook": "Facebook",
+                "footer.twitter": "Twitter",
+                "footer.instagram": "Instagram",
+                "footer.legal": "Avisos Legales",
+                "footer.legal.mentions": "Avisos Legales",
+                "footer.legal.privacy": "Política de Privacidad",
+                "footer.legal.conditions": "Términos de Uso",
+                "footer.legal.faq": "FAQ",
+                "footer.copyright": "&copy; 2023 Asociación de Asuntos Públicos e Internacionales. Todos los derechos reservados."
+            }
+        };
+    </script>
+</body>
+</html>

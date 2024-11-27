@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page.title">Présentation - AAPI</title>
+   
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Variables selon la charte graphique */
+        :root {
+            --primary: #7B051A;
+            --primary-dark: #5a0413;
+            --secondary: #333;
+            --accent: #FFB800;
+            --background: #f5f5f5;
+            --text-color: #222;
+            --text-light: #444;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --card-bg: #ffffff;
+            --border-color: rgba(123, 5, 26, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Styles de navigation */
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(123, 5, 26, 0.12);
+        }
+
+        .nav-link.active {
+            color: var(--white);
+            background: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Styles des sections */
+        .section-wrapper {
+            min-height: 100vh;
+            position: relative;
+            padding: 6rem 0;
+            background: var(--background);
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* Style des titres */
+        .section-title {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Style des cartes de valeurs */
+        .value-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .value-card h3 {
+            color: var(--primary);
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Style des textes */
+        p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* Style des boutons */
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
+            border: 2px solid var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(123, 5, 26, 0.4);
+        }
+
+        /* Style des listes */
+        .achievement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievement-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(123, 5, 26, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .achievement-list li p {
+            margin: 0;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Style des icônes */
+        .icon-wrapper {
+            background: rgba(123, 5, 26, 0.1);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .icon-wrapper svg {
+            width: 32px;
+            height: 32px;
+            color: var(--primary);
+        }
+
+        /* Style des sections historiques */
+        .history-item {
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 0 8px 8px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .history-item h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .history-item p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Style de la section introduction */
+        .intro-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../assets/images/presentation.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .intro-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-description {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #f0f0f0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(123, 5, 26, 0.9), rgba(0, 0, 0, 0.8));
+            z-index: 1;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+            padding: 6rem 0;
+        }
+
+        .intro-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .intro-btn {
+            padding: 1rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-shadow: none;
+        }
+
+        .intro-btn.primary {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+        }
+
+        .intro-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .intro-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .intro-btn.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .intro-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            position: relative;
+            text-decoration: none;
+        }
+
+        .contact-info a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <header class="header">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="logo.svg" alt="AAPI Logo" class="w-12 h-12">
+                    <span class="hidden md:inline-block text-xl font-semibold text-primary">AAPI</span>
+                </a>
+                
+                <button id="hamburger-button" class="lg:hidden flex items-center px-3 py-2 border-2 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Navigation Desktop -->
+                <div class="hidden lg:flex lg:items-center lg:w-auto">
+                    <ul class="flex flex-col lg:flex-row lg:space-x-6 lg:mt-0">
+                        <li><a href="index.html" class="nav-link" data-i18n="nav.home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link active" data-i18n="nav.presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link" data-i18n="nav.activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link" data-i18n="nav.team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link" data-i18n="nav.planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link" data-i18n="nav.contact">Contact</a></li>
+                    </ul>
+                    <div class="lg:ml-6 flex space-x-2">
+                        <button class="language-btn" data-lang="fr">FR</button>
+                        <button class="language-btn" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Mobile -->
+                <div id="mobile-menu" class="hidden w-full lg:hidden mt-4">
+                    <ul class="flex flex-col space-y-2">
+                        <li><a href="index.html" class="nav-link" data-i18n="nav.home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link active" data-i18n="nav.presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link" data-i18n="nav.activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link" data-i18n="nav.team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link" data-i18n="nav.planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link" data-i18n="nav.contact">Contact</a></li>
+                    </ul>
+                    <div class="flex space-x-2 mt-4 justify-center">
+                        <button class="language-btn" data-lang="fr">FR</button>
+                        <button class="language-btn" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section Introduction -->
+        <section class="section-wrapper intro-section">
+            <div class="intro-overlay"></div>
+            <div class="intro-content">
+                <div class="container mx-auto px-4 text-center">
+                    <h1 class="intro-title" data-i18n="intro.title">Présentation de l'AAPI</h1>
+                    <p class="intro-description" data-i18n="intro.description">
+                        L'Association d'Affaires Publiques et Internationales (AAPI) est une organisation dynamique dédiée à l'excellence académique et au développement professionnel de ses membres dans le domaine des affaires internationales.
+                    </p>
+                    <div class="intro-buttons">
+                        <a href="#mission" class="intro-btn primary" data-i18n="intro.button">
+                            Découvrir notre mission
+                        </a>
+                        <a href="#histoire" class="intro-btn secondary" data-i18n="intro.history">
+                            Notre Histoire
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Histoire -->
+        <section id="histoire" class="section-wrapper bg-gray-50">
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <div class="content-card" data-aos="fade-up" data-aos-duration="1000">
+                        <h2 class="section-title" data-i18n="history.title">Notre Histoire</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-6">
+                                <div class="border-l-4 border-primary pl-4">
+                                    <h3 class="text-xl font-semibold mb-2" data-i18n="history.foundation.title">Fondation</h3>
+                                    <p class="text-gray-600" data-i18n="history.foundation.text">Créée en 2020, l'AAPI est née de la vision commune d'étudiants passionnés par les affaires internationales.</p>
+                                </div>
+                                <div class="border-l-4 border-primary pl-4">
+                                    <h3 class="text-xl font-semibold mb-2" data-i18n="history.growth.title">Croissance</h3>
+                                    <p class="text-gray-600" data-i18n="history.growth.text">Au fil des années, notre association s'est développée pour devenir un acteur majeur dans le domaine des affaires internationales.</p>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="border-l-4 border-primary pl-4">
+                                    <h3 class="text-xl font-semibold mb-2" data-i18n="history.achievements.title">Réalisations</h3>
+                                    <p class="text-gray-600" data-i18n="history.achievements.text">Organisation de conférences internationales, partenariats avec des institutions prestigieuses et création d'opportunités pour nos membres.</p>
+                                </div>
+                                <div class="border-l-4 border-primary pl-4">
+                                    <h3 class="text-xl font-semibold mb-2" data-i18n="history.future.title">Vision Future</h3>
+                                    <p class="text-gray-600" data-i18n="history.future.text">Notre ambition est de continuer à grandir et à innover pour offrir toujours plus d'opportunités à nos membres.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Objectifs -->
+        <section class="section-wrapper">
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <h2 class="section-title" data-i18n="objectives.title">Nos Objectifs</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="content-card text-center" data-aos="fade-up" data-aos-duration="1000">
+                            <div class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838l-2.727 1.17 1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zm9.3 0A11.115 11.115 0 0113 13.12a1 1 0 01-.89.89 8.968 8.968 0 00-1.05.174V10.12l1.67-.723z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4" data-i18n="objectives.education.title">Excellence Académique</h3>
+                            <p class="text-gray-600" data-i18n="objectives.education.text">Promouvoir l'excellence académique et la formation continue dans le domaine des affaires internationales.</p>
+                        </div>
+                        <div class="content-card text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                            <div class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4" data-i18n="objectives.network.title">Réseautage</h3>
+                            <p class="text-gray-600" data-i18n="objectives.network.text">Créer des opportunités de networking entre étudiants, professionnels et experts du secteur.</p>
+                        </div>
+                        <div class="content-card text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                            <div class="bg-primary bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-4" data-i18n="objectives.innovation.title">Innovation</h3>
+                            <p class="text-gray-600" data-i18n="objectives.innovation.text">Favoriser l'innovation et la créativité dans l'approche des enjeux internationaux.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Réalisations -->
+        <section class="section-wrapper bg-gray-50">
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <h2 class="section-title" data-i18n="achievements.title">Nos Réalisations</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="content-card" data-aos="fade-right" data-aos-duration="1000">
+                            <h3 class="text-2xl font-semibold mb-4" data-i18n="achievements.events.title">Événements Marquants</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.events.1">Organisation de la conférence internationale sur les enjeux climatiques</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.events.2">Séminaires mensuels avec des experts internationaux</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.events.3">Ateliers de développement professionnel</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content-card" data-aos="fade-left" data-aos-duration="1000">
+                            <h3 class="text-2xl font-semibold mb-4" data-i18n="achievements.partnerships.title">Partenariats</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.partnerships.1">Collaboration avec des universités internationales</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.partnerships.2">Partenariats avec des organisations internationales</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-primary w-2 h-2 rounded-full mt-2 mr-3"></span>
+                                    <p data-i18n="achievements.partnerships.3">Programme d'échange avec des associations similaires</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Mission -->
+        <section id="mission" class="section-wrapper bg-gray-50">
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="content-card" data-aos="fade-right" data-aos-duration="1000">
+                            <h2 class="section-title" data-i18n="mission.title">Notre Mission</h2>
+                            <div class="space-y-4">
+                                <p class="text-lg" data-i18n="mission.p1">
+                                    Encourager l'excellence académique et professionnelle dans le secteur des affaires publiques et internationales.
+                                </p>
+                                <p class="text-lg" data-i18n="mission.p2">
+                                    Fournir un environnement stimulant et bienveillant où les membres peuvent développer leurs compétences, échanger des idées et collaborer sur des projets innovants.
+                                </p>
+                                <p class="text-lg" data-i18n="mission.p3">
+                                    Favoriser le développement d'un réseau international entre étudiants, professionnels et experts du secteur.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="relative" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                            <img src="logo-gspia.png" alt="Mission de l'AAPI" 
+                                 class="rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                            <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-primary rounded-full opacity-20 z-0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Valeurs -->
+        <section class="section-wrapper">
+            <div class="section-background" style="background: linear-gradient(45deg, #1a365d, #2563eb);"></div>
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <h2 class="section-title text-center text-white mb-12" data-i18n="values.title">Nos Valeurs Fondamentales</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="0">
+                            <div class="icon-wrapper">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4" data-i18n="values.excellence.title">Excellence</h3>
+                            <p data-i18n="values.excellence.description">Toujours viser des standards élevés dans nos initiatives et dans le soutien de nos membres.</p>
+                        </div>
+                        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+                            <div class="icon-wrapper">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4" data-i18n="values.diversity.title">Ouverture et Diversité</h3>
+                            <p data-i18n="values.diversity.description">Encourager l'inclusivité et l'échange entre personnes de différentes cultures et parcours.</p>
+                        </div>
+                        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                            <div class="icon-wrapper">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4" data-i18n="values.innovation.title">Innovation</h3>
+                            <p data-i18n="values.innovation.description">Favoriser une approche proactive et créative dans toutes les activités que nous entreprenons.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Rejoindre -->
+        <section class="section-wrapper">
+            <div class="content-container">
+                <div class="container mx-auto px-4">
+                    <div class="content-card text-center" data-aos="fade-up" data-aos-duration="1000">
+                        <h2 class="section-title" data-i18n="join.title">Rejoignez l'AAPI</h2>
+                        <p class="text-lg mb-8" data-i18n="join.description">
+                            Découvrez comment faire partie de notre communauté dynamique et accéder à des opportunités uniques dans le domaine des affaires internationales.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-8 mb-8">
+                            <div class="p-6 bg-gray-50 rounded-lg" data-aos="fade-up" data-aos-delay="0">
+                                <h3 class="font-bold text-xl mb-4" data-i18n="join.network.title">Réseau International</h3>
+                                <p data-i18n="join.network.description">Développez des contacts précieux pour votre carrière internationale</p>
+                            </div>
+                            <div class="p-6 bg-gray-50 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                                <h3 class="font-bold text-xl mb-4" data-i18n="join.training.title">Formation Continue</h3>
+                                <p data-i18n="join.training.description">Accédez à des formations et ateliers de qualité</p>
+                            </div>
+                            <div class="p-6 bg-gray-50 rounded-lg" data-aos="fade-up" data-aos-delay="400">
+                                <h3 class="font-bold text-xl mb-4" data-i18n="join.events.title">Événements Exclusifs</h3>
+                                <p data-i18n="join.events.description">Participez à des conférences et sessions de networking</p>
+                            </div>
+                        </div>
+                        <div class="mt-8 contact-section" data-aos="fade-up" data-aos-delay="600">
+                            <h3 class="font-bold text-xl mb-4 text-primary" data-i18n="join.contact.title">Contactez-nous</h3>
+                            <div class="contact-info">
+                                <div class="mb-4 flex items-center gap-2">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                    <a href="mailto:council.conseil.api@gmail.com" class="text-primary hover:text-primary-dark transition-colors duration-300">council.conseil.api@gmail.com</a>
+                                </div>
+                                <p class="flex items-center gap-2" data-i18n="join.contact.location">
+                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                    Local : Université d'Ottawa (FSS 2034)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bouton retour en haut -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialisation de AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: false,
+            mirror: true
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fonction pour changer la langue
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Exemple de traductions (à compléter avec les traductions réelles)
+        const translations = {
+            fr: {
+                "page.title": "Présentation - AAPI",
+                "nav.home": "Accueil",
+                "nav.presentation": "Présentation",
+                "nav.team": "Équipe",
+                "nav.activities": "Activités",
+                "nav.planning": "Planning",
+                "nav.contact": "Contact",
+                "nav.language": "FR",
+                "intro.title": "Présentation de l'AAPI",
+                "intro.description": "L'Association d'Affaires Publiques et Internationales (AAPI) est une organisation dynamique dédiée à l'excellence académique et au développement professionnel de ses membres dans le domaine des affaires internationales.",
+                "intro.button": "Découvrir notre mission",
+                "intro.history": "Notre Histoire",
+                "mission.title": "Notre Mission",
+                "mission.p1": "Encourager l'excellence académique et professionnelle dans le secteur des affaires publiques et internationales.",
+                "mission.p2": "Fournir un environnement stimulant et bienveillant où les membres peuvent développer leurs compétences, échanger des idées et collaborer sur des projets innovants.",
+                "mission.p3": "Favoriser le développement d'un réseau international entre étudiants, professionnels et experts du secteur.",
+                "values.title": "Nos Valeurs Fondamentales",
+                "values.excellence.title": "Excellence",
+                "values.excellence.description": "Toujours viser des standards élevés dans nos initiatives et dans le soutien de nos membres.",
+                "values.diversity.title": "Ouverture et Diversité",
+                "values.diversity.description": "Encourager l'inclusivité et l'échange entre personnes de différentes cultures et parcours.",
+                "values.innovation.title": "Innovation",
+                "values.innovation.description": "Favoriser une approche proactive et créative dans toutes les activités que nous entreprenons.",
+                "join.title": "Rejoignez l'AAPI",
+                "join.description": "Découvrez comment faire partie de notre communauté dynamique et accéder à des opportunités uniques dans le domaine des affaires internationales.",
+                "join.network.title": "Réseau International",
+                "join.network.description": "Développez des contacts précieux pour votre carrière internationale",
+                "join.training.title": "Formation Continue",
+                "join.training.description": "Accédez à des formations et ateliers de qualité",
+                "join.events.title": "Événements Exclusifs",
+                "join.events.description": "Participez à des conférences et sessions de networking",
+                "join.contact.title": "Contactez-nous",
+                "join.contact.email": "Email : <a href='mailto:council.conseil.api@gmail.com' class='text-primary hover:underline'>council.conseil.api@gmail.com</a>",
+                "join.contact.location": "Local : Université d'Ottawa (FSS 2034)",
+                "history.title": "Notre Histoire",
+                "history.foundation.title": "Fondation",
+                "history.foundation.text": "Créée en 2020, l'AAPI est née de la vision commune d'étudiants passionnés par les affaires internationales.",
+                "history.growth.title": "Croissance",
+                "history.growth.text": "Au fil des années, notre association s'est développée pour devenir un acteur majeur dans le domaine des affaires internationales.",
+                "history.achievements.title": "Réalisations",
+                "history.achievements.text": "Organisation de conférences internationales, partenariats avec des institutions prestigieuses et création d'opportunités pour nos membres.",
+                "history.future.title": "Vision Future",
+                "history.future.text": "Notre ambition est de continuer à grandir et à innover pour offrir toujours plus d'opportunités à nos membres.",
+                "objectives.title": "Nos Objectifs",
+                "objectives.education.title": "Excellence Académique",
+                "objectives.education.text": "Promouvoir l'excellence académique et la formation continue dans le domaine des affaires internationales.",
+                "objectives.network.title": "Réseautage",
+                "objectives.network.text": "Créer des opportunités de networking entre étudiants, professionnels et experts du secteur.",
+                "objectives.innovation.title": "Innovation",
+                "objectives.innovation.text": "Favoriser l'innovation et la créativité dans l'approche des enjeux internationaux.",
+                "achievements.title": "Nos Réalisations",
+                "achievements.events.title": "Événements Marquants",
+                "achievements.events.1": "Organisation de la conférence internationale sur les enjeux climatiques",
+                "achievements.events.2": "Séminaires mensuels avec des experts internationaux",
+                "achievements.events.3": "Ateliers de développement professionnel",
+                "achievements.partnerships.title": "Partenariats",
+                "achievements.partnerships.1": "Collaboration avec des universités internationales",
+                "achievements.partnerships.2": "Partenariats avec des organisations internationales",
+                "achievements.partnerships.3": "Programme d'échange avec des associations similaires"
+            },
+            en: {
+                "page.title": "Presentation - AAPI",
+                "nav.home": "Home",
+                "nav.presentation": "Presentation",
+                "nav.team": "Team",
+                "nav.activities": "Activities",
+                "nav.planning": "Planning",
+                "nav.contact": "Contact",
+                "nav.language": "EN",
+                "intro.title": "Presentation of AAPI",
+                "intro.description": "The Association for Public and International Affairs (AAPI) is a dynamic organization dedicated to academic excellence and professional development of its members in the field of international affairs.",
+                "intro.button": "Discover our mission",
+                "intro.history": "Our History",
+                "mission.title": "Our Mission",
+                "mission.p1": "Encourage academic and professional excellence in the field of public and international affairs.",
+                "mission.p2": "Provide a stimulating and supportive environment where members can develop their skills, exchange ideas, and collaborate on innovative projects.",
+                "mission.p3": "Foster the development of an international network among students, professionals, and experts in the field.",
+                "values.title": "Our Core Values",
+                "values.excellence.title": "Excellence",
+                "values.excellence.description": "Always aim for high standards in our initiatives and in supporting our members.",
+                "values.diversity.title": "Openness and Diversity",
+                "values.diversity.description": "Encourage inclusivity and exchange among people from different cultures and backgrounds.",
+                "values.innovation.title": "Innovation",
+                "values.innovation.description": "Promote a proactive and creative approach in all the activities we undertake.",
+                "join.title": "Join AAPI",
+                "join.description": "Discover how to be part of our dynamic community and access unique opportunities in the field of international affairs.",
+                "join.network.title": "International Network",
+                "join.network.description": "Develop valuable contacts for your international career",
+                "join.training.title": "Continuous Training",
+                "join.training.description": "Access quality training and workshops",
+                "join.events.title": "Exclusive Events",
+                "join.events.description": "Participate in conferences and networking sessions",
+                "join.contact.title": "Contact Us",
+                "join.contact.email": "Email: <a href='mailto:council.conseil.api@gmail.com' class='text-primary hover:underline'>council.conseil.api@gmail.com</a>",
+                "join.contact.location": "Location: University of Ottawa (FSS 2034)",
+                "history.title": "Our History",
+                "history.foundation.title": "Foundation",
+                "history.foundation.text": "Created in 2020, AAPI was born from the shared vision of students passionate about international affairs.",
+                "history.growth.title": "Growth",
+                "history.growth.text": "Over the years, our association has grown to become a major player in the field of international affairs.",
+                "history.achievements.title": "Achievements",
+                "history.achievements.text": "Organization of international conferences, partnerships with prestigious institutions, and creation of opportunities for our members.",
+                "history.future.title": "Future Vision",
+                "history.future.text": "Our ambition is to continue growing and innovating to offer even more opportunities to our members.",
+                "objectives.title": "Our Objectives",
+                "objectives.education.title": "Academic Excellence",
+                "objectives.education.text": "Promote academic excellence and continuous learning in international affairs.",
+                "objectives.network.title": "Networking",
+                "objectives.network.text": "Create networking opportunities between students, professionals, and industry experts.",
+                "objectives.innovation.title": "Innovation",
+                "objectives.innovation.text": "Encourage innovation and creativity in approaching international issues.",
+                "achievements.title": "Our Achievements",
+                "achievements.events.title": "Key Events",
+                "achievements.events.1": "Organization of the international conference on climate issues",
+                "achievements.events.2": "Monthly seminars with international experts",
+                "achievements.events.3": "Professional development workshops",
+                "achievements.partnerships.title": "Partnerships",
+                "achievements.partnerships.1": "Collaboration with international universities",
+                "achievements.partnerships.2": "Partnerships with international organizations",
+                "achievements.partnerships.3": "Exchange program with similar associations"
+            },
+            es: {
+                "page.title": "Presentación - AAPI",
+                "nav.home": "Inicio",
+                "nav.presentation": "Presentación",
+                "nav.team": "Equipo",
+                "nav.activities": "Actividades",
+                "nav.planning": "Planificación",
+                "nav.contact": "Contacto",
+                "nav.language": "ES",
+                "intro.title": "Presentación de AAPI",
+                "intro.description": "La Asociación de Asuntos Públicos e Internacionales (AAPI) es una organización dinámica dedicada a la excelencia académica y al desarrollo profesional de sus miembros en el campo de los asuntos internacionales.",
+                "intro.button": "Descubre nuestra misión",
+                "intro.history": "Nuestra Historia",
+                "mission.title": "Nuestra Misión",
+                "mission.p1": "Fomentar la excelencia académica y profesional en el campo de los asuntos públicos e internacionales.",
+                "mission.p2": "Proporcionar un entorno estimulante y de apoyo donde los miembros puedan desarrollar sus habilidades, intercambiar ideas y colaborar en proyectos innovadores.",
+                "mission.p3": "Fomentar el desarrollo de una red internacional entre estudiantes, profesionales y expertos en el campo.",
+                "values.title": "Nuestros Valores Fundamentales",
+                "values.excellence.title": "Excelencia",
+                "values.excellence.description": "Siempre aspirar a altos estándares en nuestras iniciativas y en el apoyo a nuestros miembros.",
+                "values.diversity.title": "Apertura y Diversidad",
+                "values.diversity.description": "Fomentar la inclusión y el intercambio entre personas de diferentes culturas y orígenes.",
+                "values.innovation.title": "Innovación",
+                "values.innovation.description": "Promover un enfoque proactivo y creativo en todas las actividades que emprendemos.",
+                "join.title": "Únete a AAPI",
+                "join.description": "Descubre cómo formar parte de nuestra comunidad dinámica y acceder a oportunidades únicas en el campo de los asuntos internacionales.",
+                "join.network.title": "Red Internacional",
+                "join.network.description": "Desarrolla contactos valiosos para tu carrera internacional",
+                "join.training.title": "Formación Continua",
+                "join.training.description": "Accede a formación y talleres de calidad",
+                "join.events.title": "Eventos Exclusivos",
+                "join.events.description": "Participa en conferencias y sesiones de networking",
+                "join.contact.title": "Contáctanos",
+                "join.contact.email": "Correo electrónico: <a href='mailto:council.conseil.api@gmail.com' class='text-primary hover:underline'>council.conseil.api@gmail.com</a>",
+                "join.contact.location": "Ubicación: Universidad de Ottawa (FSS 2034)",
+                "history.title": "Nuestra Historia",
+                "history.foundation.title": "Fundación",
+                "history.foundation.text": "Creada en 2020, AAPI nació de la visión compartida de estudiantes apasionados por los asuntos internacionales.",
+                "history.growth.title": "Crecimiento",
+                "history.growth.text": "A lo largo de los años, nuestra asociación ha crecido hasta convertirse en un actor importante en el campo de los asuntos internacionales.",
+                "history.achievements.title": "Logros",
+                "history.achievements.text": "Organización de conferencias internacionales, asociaciones con instituciones prestigiosas y creación de oportunidades para nuestros miembros.",
+                "history.future.title": "Visión de Futuro",
+                "history.future.text": "Nuestra ambición es seguir creciendo e innovando para ofrecer siempre más oportunidades a nuestros miembros.",
+                "objectives.title": "Nuestros Objetivos",
+                "objectives.education.title": "Excelencia Académica",
+                "objectives.education.text": "Promover la excelencia académica y el aprendizaje continuo en asuntos internacionales.",
+                "objectives.network.title": "Networking",
+                "objectives.network.text": "Crear oportunidades de networking entre estudiantes, profesionales y expertos del sector.",
+                "objectives.innovation.title": "Innovación",
+                "objectives.innovation.text": "Fomentar la innovación y la creatividad en el enfoque de los asuntos internacionales.",
+                "achievements.title": "Nuestros Logros",
+                "achievements.events.title": "Eventos Destacados",
+                "achievements.events.1": "Organización de la conferencia internacional sobre temas climáticos",
+                "achievements.events.2": "Seminarios mensuales con expertos internacionales",
+                "achievements.events.3": "Talleres de desarrollo profesional",
+                "achievements.partnerships.title": "Alianzas",
+                "achievements.partnerships.1": "Colaboración con universidades internacionales",
+                "achievements.partnerships.2": "Alianzas con organizaciones internacionales",
+                "achievements.partnerships.3": "Programa de intercambio con asociaciones similares"
+            }
+        };
+
+        // Initialisation de la langue par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            // Définir la langue par défaut (français)
+            const defaultLang = 'fr';
+            changeLanguage(defaultLang);
+            
+            // Marquer le bouton de la langue active
+            document.querySelector(`[data-lang="${defaultLang}"]`).classList.add('active');
+            
+            // Ajouter les écouteurs d'événements pour les boutons de langue
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Retirer la classe active de tous les boutons
+                    document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
+                    
+                    // Ajouter la classe active au bouton cliqué
+                    this.classList.add('active');
+                    
+                    // Changer la langue
+                    changeLanguage(lang);
+                });
+            });
+        });
+
+        // Hamburger menu toggle
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Gestion du bouton retour en haut
+        const backToTopButton = document.getElementById('scrollToTop');
+
+        function toggleBackToTop() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        }
+
+        // Afficher/masquer le bouton en fonction du défilement
+        window.addEventListener('scroll', toggleBackToTop);
+
+        // Animation de défilement fluide vers le haut
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
