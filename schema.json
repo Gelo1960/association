@@ -1,0 +1,29 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "GSPIA/ÉSAPI - Association d'Affaires Publiques et Internationales",
+    "alternateName": "AAPI",
+    "url": "https://gspia-esapi.com",
+    "logo": "https://gspia-esapi.com/logo.svg",
+    "sameAs": [
+        "https://www.instagram.com/gspia_esapi/"
+    ],
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "120 University Private",
+        "addressLocality": "Ottawa",
+        "addressRegion": "ON",
+        "postalCode": "K1N 6N5",
+        "addressCountry": "CA"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "contact@gspia-esapi.com",
+        "availableLanguage": ["French", "English", "Spanish"]
+    },
+    "description": "L'Association d'Affaires Publiques et Internationales (AAPI) est une organisation étudiante dynamique de l'École supérieure d'affaires publiques et internationales de l'Université d'Ottawa, dédiée à l'enrichissement de l'expérience académique et professionnelle de ses membres.",
+    "areaServed": "Ottawa-Gatineau",
+    "foundingDate": "2023",
+    "keywords": "affaires publiques, relations internationales, GSPIA, ÉSAPI, uOttawa, association étudiante, politique internationale"
+}

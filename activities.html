@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Activités - AAPI</title>
+    <link rel="stylesheet" href="../assets/css/base/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .swiper {
+            width: 100%;
+            height: 100vh;
+            background: #f8fafc;
+        }
+
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .activity-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .activity-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .activity-content-main {
+            flex: 1;
+        }
+
+        .activity-gallery {
+            width: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .activity-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .activity-gallery:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .activity-gallery:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .swiper-slide-active .activity-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+            transition-delay: calc(var(--delay) * 0.1s);
+        }
+
+        .swiper-slide-active .feature-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .swiper-pagination {
+            color: white;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: white;
+        }
+
+        .navigation-buttons {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+        }
+
+        .nav-button:hover svg {
+            fill: white;
+        }
+
+        .nav-button svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .activity-content {
+                grid-template-columns: 1fr;
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .activity-gallery {
+                width: 100%;
+                margin-top: 2rem;
+            }
+
+            .navigation-buttons {
+                right: 10px;
+            }
+
+            .nav-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-button svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="logo.svg" alt="AAPI Logo" class="w-12 h-12">
+                    <span class="hidden md:inline-block text-xl font-semibold text-primary">AAPI</span>
+                </a>
+                
+                <button id="hamburger-button" class="lg:hidden flex items-center px-3 py-2 border-2 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Navigation Desktop -->
+                <div class="hidden lg:flex lg:items-center lg:w-auto">
+                    <ul class="flex flex-col lg:flex-row lg:space-x-6 lg:mt-0">
+                        <li><a href="index.html" class="nav-link" data-i18n="home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link" data-i18n="presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link active" data-i18n="activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link" data-i18n="team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link" data-i18n="planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link" data-i18n="contact">Contact</a></li>
+                    </ul>
+                    <div class="lg:ml-6 flex space-x-2">
+                        <button class="language-btn" data-lang="fr">FR</button>
+                        <button class="language-btn" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Mobile -->
+                <div id="mobile-menu" class="hidden w-full lg:hidden mt-4">
+                    <ul class="flex flex-col space-y-2">
+                        <li><a href="index.html" class="nav-link" data-i18n="home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link" data-i18n="presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link active" data-i18n="activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link" data-i18n="team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link" data-i18n="planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link" data-i18n="contact">Contact</a></li>
+                    </ul>
+                    <div class="flex space-x-2 mt-4 justify-center">
+                        <button class="language-btn" data-lang="fr">FR</button>
+                        <button class="language-btn" data-lang="en">EN</button>
+                        <button class="language-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <!-- Conférences -->
+                <div class="swiper-slide">
+                    <div class="activity-background">
+                        <img src="etudiantquiparle.png" alt="Conférences">
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-content-main">
+                            <h2 class="text-4xl font-bold text-primary mb-4" data-i18n="conferences">Conférences</h2>
+                            <p class="text-xl text-gray-600 mb-6" data-i18n="conferences_description">
+                                Participez à nos conférences animées par des experts internationaux et enrichissez vos connaissances 
+                                dans le domaine des affaires publiques.
+                            </p>
+                            <div class="features-list">
+                                <div class="feature-item" style="--delay: 1">
+                                    <div class="feature-icon">🎓</div>
+                                    <span data-i18n="international_speakers">Intervenants internationaux</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 2">
+                                    <div class="feature-icon">📊</div>
+                                    <span data-i18n="current_topics">Sujets d'actualité</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 3">
+                                    <div class="feature-icon">🤝</div>
+                                    <span data-i18n="networking">Networking</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 4">
+                                    <div class="feature-icon">📜</div>
+                                    <span data-i18n="certification">Certification</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-6" data-i18n="learn_more">En savoir plus</a>
+                        </div>
+                        <div class="activity-gallery">
+                            <img src="etudiantquiparle.png" alt="Détail conférence">
+                            <div class="gallery-overlay">
+                                <h4 class="font-semibold mb-1" data-i18n="last_conference">Dernière conférence</h4>
+                                <p class="text-sm" data-i18n="international_forum">Forum sur les enjeux internationaux</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ateliers -->
+                <div class="swiper-slide">
+                    <div class="activity-background">
+                        <img src="activité-activité.jpg" alt="Ateliers">
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-content-main">
+                            <h2 class="text-4xl font-bold text-primary mb-4" data-i18n="workshops">Ateliers Pratiques</h2>
+                            <p class="text-xl text-gray-600 mb-6" data-i18n="workshops_description">
+                                Développez vos compétences pratiques à travers nos ateliers interactifs conçus pour 
+                                vous préparer au monde professionnel.
+                            </p>
+                            <div class="features-list">
+                                <div class="feature-item" style="--delay: 1">
+                                    <div class="feature-icon">👥</div>
+                                    <span data-i18n="small_groups">Groupes restreints</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 2">
+                                    <div class="feature-icon">💡</div>
+                                    <span data-i18n="practical_exercises">Exercices pratiques</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 3">
+                                    <div class="feature-icon">📝</div>
+                                    <span data-i18n="personalized_feedback">Feedback personnalisé</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 4">
+                                    <div class="feature-icon">🎯</div>
+                                    <span data-i18n="concrete_projects">Projets concrets</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-6" data-i18n="learn_more">En savoir plus</a>
+                        </div>
+                        <div class="activity-gallery">
+                            <img src="activité-activité.jpg" alt="Détail atelier">
+                            <div class="gallery-overlay">
+                                <h4 class="font-semibold mb-1" data-i18n="current_workshop">Atelier en cours</h4>
+                                <p class="text-sm" data-i18n="collaborative_session">Session de travail collaborative</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Networking -->
+                <div class="swiper-slide">
+                    <div class="activity-background">
+                        <img src="reseau.png" alt="Networking">
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-content-main">
+                            <h2 class="text-4xl font-bold text-primary mb-4" data-i18n="networking_events">Événements Networking</h2>
+                            <p class="text-xl text-gray-600 mb-6" data-i18n="networking_events_description">
+                                Élargissez votre réseau professionnel lors de nos événements de networking conçus 
+                                pour créer des connexions durables.
+                            </p>
+                            <div class="features-list">
+                                <div class="feature-item" style="--delay: 1">
+                                    <div class="feature-icon">🌐</div>
+                                    <span data-i18n="professional_meetings">Rencontres pro</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 2">
+                                    <div class="feature-icon">🍷</div>
+                                    <span data-i18n="networking_cocktails">Cocktails networking</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 3">
+                                    <div class="feature-icon">⚡</div>
+                                    <span data-i18n="speed_networking">Speed networking</span>
+                                </div>
+                                <div class="feature-item" style="--delay: 4">
+                                    <div class="feature-icon">👨‍🏫</div>
+                                    <span data-i18n="mentoring">Mentoring</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-6" data-i18n="learn_more">En savoir plus</a>
+                        </div>
+                        <div class="activity-gallery">
+                            <img src="reseau.png" alt="Détail networking">
+                            <div class="gallery-overlay">
+                                <h4 class="font-semibold mb-1" data-i18n="last_event">Dernier événement</h4>
+                                <p class="text-sm" data-i18n="international_networking_night">Soirée networking internationale</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </main>
+
+    <div class="navigation-buttons">
+        <button class="nav-button" id="prevButton" aria-label="Section précédente">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+            </svg>
+        </button>
+        <button class="nav-button" id="nextButton" aria-label="Section suivante">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+            </svg>
+        </button>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="contact">Contact</h3>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span data-i18n="contact_address">Local FSS 2034, Université d'Ottawa</span>
+                    </p>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span data-i18n="contact_email">council.conseil.api@gmail.com</span>
+                    </p>
+                    <p class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span data-i18n="contact_phone">+1 (613) 123-4567</span>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="social_media">Réseaux Sociaux</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.facebook.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            <span data-i18n="facebook">Facebook</span>
+                        </a></li>
+                        <li><a href="https://twitter.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                            <span data-i18n="twitter">Twitter</span>
+                        </a></li>
+                        <li><a href="https://www.instagram.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            <span data-i18n="instagram">Instagram</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-i18n="legal">Mentions Légales</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="text-white hover:text-accent-color" data-i18n="legal_mentions">Mentions Légales</a></li>
+                        <li><a href="politique-confidentialite.html" class="text-white hover:text-accent-color" data-i18n="privacy_policy">Politique de Confidentialité</a></li>
+                        <li><a href="conditions-utilisation.html" class="text-white hover:text-accent-color" data-i18n="terms_of_use">Conditions d'Utilisation</a></li>
+                        <li><a href="FAQ.html" class="text-white hover:text-accent-color" data-i18n="faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <span data-i18n="copyright">&copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            direction: 'vertical',
+            slidesPerView: 1,
+            spaceBetween: 0,
+            mousewheel: true,
+            speed: 1000,
+            parallax: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            on: {
+                slideChangeTransitionStart: function () {
+                    const activeSlide = this.slides[this.activeIndex];
+                    const features = activeSlide.querySelectorAll('.feature-item');
+                    features.forEach((feature, index) => {
+                        feature.style.transitionDelay = `${index * 0.1}s`;
+                    });
+                }
+            }
+        });
+
+        // Boutons de navigation personnalisés
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+
+        prevButton.addEventListener('click', () => {
+            swiper.slidePrev();
+        });
+
+        nextButton.addEventListener('click', () => {
+            swiper.slideNext();
+        });
+
+        // Mise à jour de l'état des boutons
+        swiper.on('slideChange', () => {
+            prevButton.style.opacity = swiper.isBeginning ? '0.5' : '1';
+            nextButton.style.opacity = swiper.isEnd ? '0.5' : '1';
+        });
+
+        // Hamburger menu toggle
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Traductions
+        const translations = {
+            fr: {
+                title: "Activités - AAPI",
+                home: "Accueil",
+                presentation: "Présentation",
+                team: "Équipe",
+                activities: "Activités",
+                planning: "Planning",
+                contact: "Contact",
+                language: "FR",
+                conferences: "Conférences",
+                conferences_description: "Participez à nos conférences animées par des experts internationaux et enrichissez vos connaissances dans le domaine des affaires publiques.",
+                international_speakers: "Intervenants internationaux",
+                current_topics: "Sujets d'actualité",
+                networking: "Networking",
+                certification: "Certification",
+                learn_more: "En savoir plus",
+                last_conference: "Dernière conférence",
+                international_forum: "Forum sur les enjeux internationaux",
+                workshops: "Ateliers Pratiques",
+                workshops_description: "Développez vos compétences pratiques à travers nos ateliers interactifs conçus pour vous préparer au monde professionnel.",
+                small_groups: "Groupes restreints",
+                practical_exercises: "Exercices pratiques",
+                personalized_feedback: "Feedback personnalisé",
+                concrete_projects: "Projets concrets",
+                current_workshop: "Atelier en cours",
+                collaborative_session: "Session de travail collaborative",
+                networking_events: "Événements Networking",
+                networking_events_description: "Élargissez votre réseau professionnel lors de nos événements de networking conçus pour créer des connexions durables.",
+                professional_meetings: "Rencontres pro",
+                networking_cocktails: "Cocktails networking",
+                speed_networking: "Speed networking",
+                mentoring: "Mentoring",
+                last_event: "Dernier événement",
+                international_networking_night: "Soirée networking internationale",
+                contact: "Contact",
+                contact_address: "Local FSS 2034, Université d'Ottawa",
+                contact_email: "council.conseil.api@gmail.com",
+                contact_phone: "+1 (613) 123-4567",
+                social_media: "Réseaux Sociaux",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram",
+                legal: "Mentions Légales",
+                legal_mentions: "Mentions Légales",
+                privacy_policy: "Politique de Confidentialité",
+                terms_of_use: "Conditions d'Utilisation",
+                faq: "FAQ",
+                copyright: "&copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés."
+            },
+            en: {
+                title: "Activities - AAPI",
+                home: "Home",
+                presentation: "Presentation",
+                team: "Team",
+                activities: "Activities",
+                planning: "Planning",
+                contact: "Contact",
+                language: "EN",
+                conferences: "Conferences",
+                conferences_description: "Participate in our conferences led by international experts and enrich your knowledge in the field of public affairs.",
+                international_speakers: "International speakers",
+                current_topics: "Current topics",
+                networking: "Networking",
+                certification: "Certification",
+                learn_more: "Learn more",
+                last_conference: "Last conference",
+                international_forum: "International forum",
+                workshops: "Practical Workshops",
+                workshops_description: "Develop your practical skills through our interactive workshops designed to prepare you for the professional world.",
+                small_groups: "Small groups",
+                practical_exercises: "Practical exercises",
+                personalized_feedback: "Personalized feedback",
+                concrete_projects: "Concrete projects",
+                current_workshop: "Current workshop",
+                collaborative_session: "Collaborative session",
+                networking_events: "Networking Events",
+                networking_events_description: "Expand your professional network at our networking events designed to create lasting connections.",
+                professional_meetings: "Professional meetings",
+                networking_cocktails: "Networking cocktails",
+                speed_networking: "Speed networking",
+                mentoring: "Mentoring",
+                last_event: "Last event",
+                international_networking_night: "International networking night",
+                contact: "Contact",
+                contact_address: "Room FSS 2034, University of Ottawa",
+                contact_email: "council.conseil.api@gmail.com",
+                contact_phone: "+1 (613) 123-4567",
+                social_media: "Social Media",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram",
+                legal: "Legal Notices",
+                legal_mentions: "Legal Notices",
+                privacy_policy: "Privacy Policy",
+                terms_of_use: "Terms of Use",
+                faq: "FAQ",
+                copyright: "&copy; 2023 Association of Public and International Affairs. All rights reserved."
+            },
+            es: {
+                title: "Actividades - AAPI",
+                home: "Inicio",
+                presentation: "Presentación",
+                team: "Equipo",
+                activities: "Actividades",
+                planning: "Planificación",
+                contact: "Contacto",
+                language: "ES",
+                conferences: "Conferencias",
+                conferences_description: "Participe en nuestras conferencias dirigidas por expertos internacionales y enriquezca sus conocimientos en el campo de las relaciones públicas.",
+                international_speakers: "Oradores internacionales",
+                current_topics: "Temas actuales",
+                networking: "Networking",
+                certification: "Certificación",
+                learn_more: "Saber más",
+                last_conference: "Última conferencia",
+                international_forum: "Foro internacional",
+                workshops: "Talleres Prácticos",
+                workshops_description: "Desarrolle sus habilidades prácticas a través de nuestros talleres interactivos diseñados para prepararle para el mundo profesional.",
+                small_groups: "Grupos pequeños",
+                practical_exercises: "Ejercicios prácticos",
+                personalized_feedback: "Retroalimentación personalizada",
+                concrete_projects: "Proyectos concretos",
+                current_workshop: "Taller actual",
+                collaborative_session: "Sesión colaborativa",
+                networking_events: "Eventos de Networking",
+                networking_events_description: "Amplíe su red profesional en nuestros eventos de networking diseñados para crear conexiones duraderas.",
+                professional_meetings: "Reuniones profesionales",
+                networking_cocktails: "Cócteles de networking",
+                speed_networking: "Speed networking",
+                mentoring: "Mentoría",
+                last_event: "Último evento",
+                international_networking_night: "Noche de networking internacional",
+                contact: "Contacto",
+                contact_address: "Sala FSS 2034, Universidad de Ottawa",
+                contact_email: "council.conseil.api@gmail.com",
+                contact_phone: "+1 (613) 123-4567",
+                social_media: "Redes Sociales",
+                facebook: "Facebook",
+                twitter: "Twitter",
+                instagram: "Instagram",
+                legal: "Avisos Legales",
+                legal_mentions: "Avisos Legales",
+                privacy_policy: "Política de Privacidad",
+                terms_of_use: "Términos de Uso",
+                faq: "FAQ",
+                copyright: "&copy; 2023 Asociación de Asuntos Públicos e Internacionales. Todos los derechos reservados."
+            }
+        };
+
+        function translatePage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = translations[lang][key];
+            });
+        }
+
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                translatePage(lang);
+                document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Initial translation to French
+        translatePage('fr');
+    </script>
+</body>
+</html>

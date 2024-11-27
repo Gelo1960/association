@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - AAPI</title>
+    <link rel="stylesheet" href="../assets/css/base/styles.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <audio id="clickSound" src="click-sound.mp3"></audio>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+    <header class="header">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.svg" class="mr-3 h-12" alt="AAPI Logo" />
+                </a>
+                
+                <!-- Bouton hamburger pour mobile -->
+                <button id="hamburger-button" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 focus:outline-none" aria-label="Menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Menu principal -->
+                <div class="hidden lg:flex justify-between items-center w-full lg:w-auto lg:order-1" id="mobile-menu">
+                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <li>
+                            <a href="index.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.home">Accueil</a>
+                        </li>
+                        <li>
+                            <a href="presentation.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.presentation">Présentation</a>
+                        </li>
+                        <li>
+                            <a href="equipe.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.team">Équipe</a>
+                        </li>
+                        <li>
+                            <a href="activities.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.activities">Activités</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" class="block py-2 pr-4 pl-3 text-gray-700 hover:text-primary lg:p-0" data-i18n="nav.contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Boutons de langue -->
+                <div class="flex items-center lg:order-2">
+                    <div class="language-selector flex space-x-2 bg-gray-100 rounded-full p-1">
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('fr')" data-lang="fr">
+                            <span class="flag-icon flag-icon-fr"></span>
+                            FR
+                        </button>
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('en')" data-lang="en">
+                            <span class="flag-icon flag-icon-gb"></span>
+                            EN
+                        </button>
+                        <button class="language-btn px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400" onclick="changeLanguage('es')" data-lang="es">
+                            <span class="flag-icon flag-icon-es"></span>
+                            ES
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Script pour le menu hamburger -->
+    <script>
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+
+   <main class="pt-24 pb-16 bg-gray-50">
+       <div class="container mx-auto px-4">
+           <h1 class="faq-title" data-lang="faqTitle">Foire aux Questions</h1>
+           
+           <div class="faq-container">
+               <div class="faq-item">
+                   <h3 class="faq-question" data-lang="faqQuestion1">Comment devenir membre de l'AAPI ?</h3>
+                   <div class="faq-answer">
+                       <p data-lang="faqAnswer1">Pour devenir membre de l'AAPI, vous devez être étudiant à l'École Supérieure des Affaires Publiques et Internationales. L'inscription se fait en début d'année universitaire via notre formulaire en ligne ou lors de nos événements de recrutement.</p>
+                   </div>
+               </div>
+   
+               <div class="faq-item">
+                   <h3 class="faq-question" data-lang="faqQuestion2">Quels sont les avantages d'être membre ?</h3>
+                   <div class="faq-answer">
+                       <p data-lang="faqAnswer2">Les membres de l'AAPI bénéficient de nombreux avantages :</p>
+                       <ul class="list-disc pl-5 mt-2">
+                           <li data-lang="faqAnswer2Advantage1">Accès prioritaire à nos événements</li>
+                           <li data-lang="faqAnswer2Advantage2">Réductions sur les activités payantes</li>
+                           <li data-lang="faqAnswer2Advantage3">Networking avec des professionnels</li>
+                           <li data-lang="faqAnswer2Advantage4">Accès à notre réseau d'anciens</li>
+                           <li data-lang="faqAnswer2Advantage5">Participation à nos ateliers exclusifs</li>
+                       </ul>
+                   </div>
+               </div>
+   
+               <div class="faq-item">
+                   <h3 class="faq-question" data-lang="faqQuestion3">Comment participer aux événements ?</h3>
+                   <div class="faq-answer">
+                       <p data-lang="faqAnswer3">Les événements sont annoncés sur notre site web, nos réseaux sociaux et par email pour les membres. L'inscription se fait généralement en ligne via notre plateforme d'événements.</p>
+                   </div>
+               </div>
+   
+               <div class="faq-item">
+                   <h3 class="faq-question" data-lang="faqQuestion4">Proposez-vous des stages ou des opportunités professionnelles ?</h3>
+                   <div class="faq-answer">
+                       <p data-lang="faqAnswer4">Oui, nous partageons régulièrement des offres de stages et d'emploi avec nos membres. Nous organisons également des événements de recrutement et des sessions de networking avec des employeurs potentiels.</p>
+                   </div>
+               </div>
+   
+               <div class="faq-item">
+                   <h3 class="faq-question" data-lang="faqQuestion5">Comment contacter l'équipe de l'AAPI ?</h3>
+                   <div class="faq-answer">
+                       <p data-lang="faqAnswer5">Vous pouvez nous contacter :</p>
+                       <ul class="list-disc pl-5 mt-2">
+                           <li data-lang="faqAnswer5Contact1">Par email : contact@aapi.com</li>
+                           <li data-lang="faqAnswer5Contact2">Via notre formulaire de contact</li>
+                           <li data-lang="faqAnswer5Contact3">Sur nos réseaux sociaux</li>
+                           <li data-lang="faqAnswer5Contact4">En personne pendant nos heures de permanence</li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-lang="contact">Contact</h3>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Local FSS 2034, Université d'Ottawa
+                    </p>
+                    <p class="flex items-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        council.conseil.api@gmail.com
+                    </p>
+                    <p class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        +1 (613) 123-4567
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-lang="socialNetworks">Réseaux Sociaux</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.facebook.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            Facebook
+                        </a></li>
+                        <li><a href="https://twitter.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                            Twitter
+                        </a></li>
+                        <li><a href="https://www.instagram.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            Instagram
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4 animate-text" data-lang="legalNotices">Mentions Légales</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="text-white hover:text-accent-color" data-lang="legalNotices">Mentions Légales</a></li>
+                        <li><a href="politique-confidentialite.html" class="text-white hover:text-accent-color" data-lang="privacyPolicy">Politique de Confidentialité</a></li>
+                        <li><a href="conditions-utilisation.html" class="text-white hover:text-accent-color" data-lang="termsOfUse">Conditions d'Utilisation</a></li>
+                        <li><a href="FAQ.html" class="text-white hover:text-accent-color" data-lang="faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                &copy; 2023 Association d'Affaires Publiques et Internationales. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+    <script src="../assets/js/faq.js"></script>
+    <script src="menu.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+
+    <script>
+        const translations = {
+            fr: {
+                home: "Accueil",
+                presentation: "Présentation",
+                team: "Équipe",
+                activities: "Activités",
+                planning: "Planning",
+                contact: "Contact",
+                faqTitle: "Foire aux Questions",
+                faqQuestion1: "Comment devenir membre de l'AAPI ?",
+                faqAnswer1: "Pour devenir membre de l'AAPI, vous devez être étudiant à l'École Supérieure des Affaires Publiques et Internationales. L'inscription se fait en début d'année universitaire via notre formulaire en ligne ou lors de nos événements de recrutement.",
+                faqQuestion2: "Quels sont les avantages d'être membre ?",
+                faqAnswer2: "Les membres de l'AAPI bénéficient de nombreux avantages :",
+                faqAnswer2Advantage1: "Accès prioritaire à nos événements",
+                faqAnswer2Advantage2: "Réductions sur les activités payantes",
+                faqAnswer2Advantage3: "Networking avec des professionnels",
+                faqAnswer2Advantage4: "Accès à notre réseau d'anciens",
+                faqAnswer2Advantage5: "Participation à nos ateliers exclusifs",
+                faqQuestion3: "Comment participer aux événements ?",
+                faqAnswer3: "Les événements sont annoncés sur notre site web, nos réseaux sociaux et par email pour les membres. L'inscription se fait généralement en ligne via notre plateforme d'événements.",
+                faqQuestion4: "Proposez-vous des stages ou des opportunités professionnelles ?",
+                faqAnswer4: "Oui, nous partageons régulièrement des offres de stages et d'emploi avec nos membres. Nous organisons également des événements de recrutement et des sessions de networking avec des employeurs potentiels.",
+                faqQuestion5: "Comment contacter l'équipe de l'AAPI ?",
+                faqAnswer5: "Vous pouvez nous contacter :",
+                faqAnswer5Contact1: "Par email : contact@aapi.com",
+                faqAnswer5Contact2: "Via notre formulaire de contact",
+                faqAnswer5Contact3: "Sur nos réseaux sociaux",
+                faqAnswer5Contact4: "En personne pendant nos heures de permanence",
+                contact: "Contact",
+                socialNetworks: "Réseaux Sociaux",
+                legalNotices: "Mentions Légales",
+                privacyPolicy: "Politique de Confidentialité",
+                termsOfUse: "Conditions d'Utilisation",
+                faq: "FAQ"
+            },
+            en: {
+                home: "Home",
+                presentation: "About",
+                team: "Team",
+                activities: "Activities",
+                planning: "Planning",
+                contact: "Contact",
+                faqTitle: "Frequently Asked Questions",
+                faqQuestion1: "How to become a member of AAPI?",
+                faqAnswer1: "To become a member of AAPI, you must be a student at the School of Public and International Affairs. Registration is done at the beginning of the academic year via our online form or during our recruitment events.",
+                faqQuestion2: "What are the benefits of being a member?",
+                faqAnswer2: "Members of AAPI benefit from numerous advantages:",
+                faqAnswer2Advantage1: "Priority access to our events",
+                faqAnswer2Advantage2: "Discounts on paid activities",
+                faqAnswer2Advantage3: "Networking with professionals",
+                faqAnswer2Advantage4: "Access to our alumni network",
+                faqAnswer2Advantage5: "Participation in our exclusive workshops",
+                faqQuestion3: "How to participate in events?",
+                faqAnswer3: "Events are announced on our website, social media, and by email for members. Registration is usually done online via our event platform.",
+                faqQuestion4: "Do you offer internships or job opportunities?",
+                faqAnswer4: "Yes, we regularly share internship and job offers with our members. We also organize recruitment events and networking sessions with potential employers.",
+                faqQuestion5: "How to contact the AAPI team?",
+                faqAnswer5: "You can contact us:",
+                faqAnswer5Contact1: "By email: contact@aapi.com",
+                faqAnswer5Contact2: "Via our contact form",
+                faqAnswer5Contact3: "On our social media",
+                faqAnswer5Contact4: "In person during our office hours",
+                contact: "Contact",
+                socialNetworks: "Social Networks",
+                legalNotices: "Legal Notices",
+                privacyPolicy: "Privacy Policy",
+                termsOfUse: "Terms of Use",
+                faq: "FAQ"
+            },
+            es: {
+                home: "Inicio",
+                presentation: "Presentación",
+                team: "Equipo",
+                activities: "Actividades",
+                planning: "Planificación",
+                contact: "Contacto",
+                faqTitle: "Preguntas Frecuentes",
+                faqQuestion1: "¿Cómo convertirse en miembro de AAPI?",
+                faqAnswer1: "Para convertirse en miembro de AAPI, debe ser estudiante en la Escuela Superior de Asuntos Públicos e Internacionales. La inscripción se realiza al comienzo del año académico a través de nuestro formulario en línea o durante nuestros eventos de reclutamiento.",
+                faqQuestion2: "¿Cuáles son los beneficios de ser miembro?",
+                faqAnswer2: "Los miembros de AAPI disfrutan de numerosos beneficios:",
+                faqAnswer2Advantage1: "Acceso prioritario a nuestros eventos",
+                faqAnswer2Advantage2: "Descuentos en actividades de pago",
+                faqAnswer2Advantage3: "Networking con profesionales",
+                faqAnswer2Advantage4: "Acceso a nuestra red de antiguos alumnos",
+                faqAnswer2Advantage5: "Participación en nuestros talleres exclusivos",
+                faqQuestion3: "¿Cómo participar en los eventos?",
+                faqAnswer3: "Los eventos se anuncian en nuestro sitio web, redes sociales y por correo electrónico para los miembros. La inscripción generalmente se realiza en línea a través de nuestra plataforma de eventos.",
+                faqQuestion4: "¿Ofrecen prácticas o oportunidades laborales?",
+                faqAnswer4: "Sí, compartimos regularmente ofertas de prácticas y empleo con nuestros miembros. También organizamos eventos de reclutamiento y sesiones de networking con posibles empleadores.",
+                faqQuestion5: "¿Cómo contactar al equipo de AAPI?",
+                faqAnswer5: "Puede contactarnos:",
+                faqAnswer5Contact1: "Por correo electrónico: contact@aapi.com",
+                faqAnswer5Contact2: "A través de nuestro formulario de contacto",
+                faqAnswer5Contact3: "En nuestras redes sociales",
+                faqAnswer5Contact4: "En persona durante nuestras horas de oficina",
+                contact: "Contacto",
+                socialNetworks: "Redes Sociales",
+                legalNotices: "Avisos Legales",
+                privacyPolicy: "Política de Privacidad",
+                termsOfUse: "Términos de Uso",
+                faq: "FAQ"
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Mettre à jour l'apparence des boutons de langue
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-red-500', 'text-white');
+                } else {
+                    btn.classList.remove('bg-red-500', 'text-white');
+                }
+            });
+
+            // Sauvegarder la préférence de langue
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Charger la langue préférée au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
+            changeLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="responsive.css">
+<script src="menu.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <audio id="clickSound" src="path/to/click-sound.mp3"></audio>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <title>AAPI - Équipe</title>
+  <style>
+    /* Styles CSS */
+    :root {
+      --primary: #7B051A;
+      --secondary: #333;
+      --light: #f5f5f5;
+      --dark: #222;
+      --accent: #FFB800;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+      transition: background 0.3s ease;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+
+    .language-selector {
+      margin-left: 2rem;
+      position: relative;
+    }
+
+    .language-btn {
+      background: transparent;
+      border: 2px solid var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .language-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('university-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      padding: 2rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: slideInFromLeft 1s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      animation: slideInFromRight 1s ease-out;
+    }
+
+    .section {
+      padding: 6rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section h2:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .team-member {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      background: white;
+      transition: var(--transition);
+    }
+
+    .team-member img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .team-member .info {
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      color: white;
+      transition: var(--transition);
+    }
+
+    .team-member:hover .info {
+      bottom: 0;
+    }
+
+    .team-member:hover img {
+      transform: scale(1.1);
+    }
+
+    .contact-info {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .contact-info p {
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInFromLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInFromRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+    /* Footer */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 4rem 0 2rem;
+}
+
+.footer-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.footer-link {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--accent-color);
+}
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="header">
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 shadow-md">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="logo.svg" alt="AAPI Logo" class="w-12 h-12">
+                    <span class="hidden md:inline-block text-xl font-semibold text-primary">AAPI</span>
+                </a>
+                
+                <button id="hamburger-button" class="lg:hidden flex items-center px-3 py-2 border-2 rounded-lg transition-colors duration-200 hover:bg-primary hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+
+                <!-- Navigation Desktop -->
+                <div class="hidden lg:flex lg:items-center lg:w-auto">
+                    <ul class="flex flex-col lg:flex-row lg:space-x-6 lg:mt-0">
+                        <li><a href="index.html" class="nav-link hover:text-primary transition-colors duration-200" data-i18n="nav.home">Accueil</a></li>
+                        <li><a href="presentation.html" class="nav-link hover:text-primary transition-colors duration-200" data-i18n="nav.presentation">Présentation</a></li>
+                        <li><a href="activities.html" class="nav-link hover:text-primary transition-colors duration-200" data-i18n="nav.activities">Activités</a></li>
+                        <li><a href="equipe.html" class="nav-link active bg-primary/10 text-primary" data-i18n="nav.team">Équipe</a></li>
+                        <li><a href="planning.html" class="nav-link hover:text-primary transition-colors duration-200" data-i18n="nav.planning">Planning</a></li>
+                        <li><a href="contact.html" class="nav-link hover:text-primary transition-colors duration-200" data-i18n="nav.contact">Contact</a></li>
+                    </ul>
+                    <div class="lg:ml-6 flex space-x-2">
+                        <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="fr">FR</button>
+                        <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="en">EN</button>
+                        <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="es">ES</button>
+                    </div>
+                </div>
+
+                <!-- Navigation Mobile -->
+                <div id="mobile-menu" class="hidden w-full lg:hidden mt-4 bg-white rounded-lg shadow-lg absolute top-full left-0 right-0 transition-all duration-200 transform">
+                    <div class="px-4 py-3">
+                        <ul class="flex flex-col space-y-2">
+                            <li><a href="index.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors duration-200" data-i18n="nav.home">Accueil</a></li>
+                            <li><a href="presentation.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors duration-200" data-i18n="nav.presentation">Présentation</a></li>
+                            <li><a href="activities.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors duration-200" data-i18n="nav.activities">Activités</a></li>
+                            <li><a href="equipe.html" class="nav-link block py-2 px-3 rounded-lg bg-primary/10 text-primary" data-i18n="nav.team">Équipe</a></li>
+                            <li><a href="planning.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors duration-200" data-i18n="nav.planning">Planning</a></li>
+                            <li><a href="contact.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors duration-200" data-i18n="nav.contact">Contact</a></li>
+                        </ul>
+                        <div class="flex justify-center space-x-2 mt-4 pb-2 border-t border-gray-100 pt-4">
+                            <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="fr">FR</button>
+                            <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="en">EN</button>
+                            <button class="language-btn hover:bg-primary hover:text-white transition-colors duration-200" data-lang="es">ES</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <style>
+        /* Styles pour le menu mobile */
+        #mobile-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #mobile-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Style pour le bouton hamburger */
+        #hamburger-button {
+            position: relative;
+            z-index: 20;
+        }
+
+        /* Styles pour les liens de navigation */
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Style pour les boutons de langue */
+        .language-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+    </style>
+
+    <script>
+        // Amélioration du comportement du menu hamburger
+        document.getElementById('hamburger-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('show');
+            
+            // Animation du bouton hamburger
+            this.classList.toggle('text-primary');
+            this.classList.toggle('bg-primary/10');
+        });
+
+        // Fermer le menu mobile lors du clic sur un lien
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('show');
+                document.getElementById('hamburger-button').classList.remove('text-primary', 'bg-primary/10');
+            });
+        });
+
+        // Fermer le menu mobile lors du redimensionnement
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('show');
+                document.getElementById('hamburger-button').classList.remove('text-primary', 'bg-primary/10');
+            }
+        });
+    </script>
+
+<section id="equipe" class="section py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12" data-lang="teamTitle">Notre Équipe</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <!-- Membre 1 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Ruben-benjamin.png" alt="Boni Ruben-Benjamin Dombo" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="presidentName">Boni Ruben-Benjamin Dombo</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="presidentRole">Président</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Leadership et vision stratégique</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Coordination des activités</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Engagé pour le développement et le rayonnement de notre association."</p>
+                    </div>
+                    <a href="mailto:bdomb054@uOttawa.ca" class="text-primary hover:text-accent">bdomb054@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 2 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Florian-placide.png" alt="Florian Placide" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="vicePresidentName">Florian Placide</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="vicePresidentRole">Vice-Président</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Support à la présidence</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Gestion des projets</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Ensemble, nous pouvons accomplir de grandes choses pour notre communauté."</p>
+                    </div>
+                    <a href="mailto:fplac049@uOttawa.ca" class="text-primary hover:text-accent">fplac049@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 3 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="ange.png" alt="Ange Hadassa Gertrude Kodji" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="financeVPName">Ange Hadassa Gertrude Kodji</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="financeVPRole">Vice-Présidente des finances</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Gestion financière</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Budgétisation</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Une gestion financière rigoureuse pour des projets ambitieux."</p>
+                    </div>
+                    <a href="mailto:akodj010@uOttawa.ca" class="text-primary hover:text-accent">akodj010@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 4 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="marie.png" alt="Marie Christiana Joseph" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="internalSocialVPName">Marie Christiana Joseph</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="internalSocialVPRole">Vice-Présidente - Interne et Social</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Organisation d'événements</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Vie associative</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Créer des moments mémorables pour renforcer nos liens."</p>
+                    </div>
+                    <a href="mailto:mjose098@uOttawa.ca" class="text-primary hover:text-accent">mjose098@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 5 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Rania-fawaz.png" alt="Rania Fawaz" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="firstYearFrenchRepName">Rania Fawaz</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="firstYearFrenchRepRole">Représentante des étudiants francophones de 1re année</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Support aux étudiants</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Intégration</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Accompagner les nouveaux étudiants vers leur réussite."</p>
+                    </div>
+                    <a href="mailto:rfawa068@uOttawa.ca" class="text-primary hover:text-accent">rfawa068@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 6 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Hanna-taylor.png" alt="Hanna Taylor Milne" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="thirdYearEnglishRepName">Hanna Taylor Milne</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="thirdYearEnglishRepRole">Représentante des étudiants anglophones de 3e année</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Support académique</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Représentation</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Building bridges between English and French speaking students."</p>
+                    </div>
+                    <a href="mailto:hmiln095@uOttawa.ca" class="text-primary hover:text-accent">hmiln095@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 7 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Kevin-oberoi.png" alt="Kevin Oberoi" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="secondYearRepName">Kevin Oberoi</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="secondYearRepRole">Représentant des étudiants de 2e année</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Liaison étudiante</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Support aux pairs</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Être à l'écoute et au service des étudiants de deuxième année."</p>
+                    </div>
+                    <a href="mailto:kober050@uOttawa.ca" class="text-primary hover:text-accent">kober050@uOttawa.ca</a>
+                </div>
+            </div>
+
+            <!-- Membre 8 -->
+            <div class="team-member bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="relative h-[500px]">
+                    <img src="Régis-kalou.png" alt="Regis Privat Kalou" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 space-y-4">
+                    <h3 class="text-2xl font-bold text-gray-800" data-lang="internationalRepName">Regis Privat Kalou</h3>
+                    <p class="text-xl font-semibold text-primary" data-lang="internationalRepRole">Représentant des étudiants internationaux</p>
+                    <div class="space-y-2 text-gray-600">
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Support international</p>
+                        <p class="flex items-center"><i class="fas fa-check-circle mr-2 text-primary"></i>Intégration culturelle</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 italic">"Facilitateur de l'intégration et du succès des étudiants internationaux."</p>
+                    </div>
+                    <a href="mailto:rkalo050@uOttawa.ca" class="text-primary hover:text-accent">rkalo050@uOttawa.ca</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4" data-lang="contact">Contact</h3>
+                <p class="flex items-center mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Local FSS 2034, Université d'Ottawa
+                </p>
+                <p class="flex items-center mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    council.conseil.api@gmail.com
+                </p>
+                <p class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +1 (613) 123-4567
+                </p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4" data-lang="socialNetworks">Réseaux Sociaux</h3>
+                <ul class="space-y-2">
+                    <li><a href="https://www.facebook.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        Facebook
+                    </a></li>
+                    <li><a href="https://twitter.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                        Twitter
+                    </a></li>
+                    <li><a href="https://www.instagram.com/aapi" target="_blank" rel="noopener noreferrer" class="flex items-center text-white hover:text-accent-color">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        Instagram
+                    </a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4" data-lang="legalNotices">Mentions Légales</h3>
+                <ul class="space-y-2">
+                    <li><a href="mentions-legales.html" class="text-white hover:text-accent-color" data-lang="legalNotices">Mentions Légales</a></li>
+                    <li><a href="politique-confidentialite.html" class="text-white hover:text-accent-color" data-lang="privacyPolicy">Politique de Confidentialité</a></li>
+                    <li><a href="conditions-utilisation.html" class="text-white hover:text-accent-color" data-lang="termsOfUse">Conditions d'Utilisation</a></li>
+                    <li><a href="FAQ.html" class="text-white hover:text-accent-color" data-lang="faq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact-info">
+            <p data-lang="officeLocation">Notre bureau est situé au local FSS 2034. C'est un endroit confortable où vous êtes toujours les bienvenus; visitez-nous quand vous le voulez!</p>
+            <p data-lang="contactEmail">Si vous avez des questions à propos de l'Association, son mandat, les postes ou pour trouver une façon de vous impliquer, veuillez nous contacter à <a href="mailto:council.conseil.api@gmail.com">council.conseil.api@gmail.com</a>.</p>
+          </div>
+</footer>
+<script href="script.js"></script>
+<script>
+const translations = {
+  fr: {
+    home: "Accueil",
+    presentation: "Présentation",
+    team: "Équipe",
+    activities: "Activités",
+    planning: "Planning",
+    faq: "FAQ",
+    contact: "Contact",
+    teamTitle: "Notre Équipe",
+    presidentName: "Boni Ruben-Benjamin Dombo",
+    presidentRole: "Présidente",
+    presidentDescription: "En tant que Présidente, Boni dirige l'association avec vision et passion.",
+    vicePresidentName: "Florian Placide",
+    vicePresidentRole: "Vice-Président",
+    vicePresidentDescription: "En tant que Vice-Président, Florian soutient l'équipe avec enthousiasme et détermination.",
+    financeVPName: "Ange Hadassa Gertrude Kodji",
+    financeVPRole: "Vice-Présidente des finances",
+    financeVPDescription: "En tant que Vice-Présidente des finances, Ange gère les ressources financières de l'association avec compétence et rigueur.",
+    internalSocialVPName: "Marie Christiana Joseph",
+    internalSocialVPRole: "Vice-Présidente - Interne et Social",
+    internalSocialVPDescription: "En tant que Vice-Présidente - Interne et Social, Marie organise des événements et activités pour les membres de l'association.",
+    firstYearFrenchRepName: "Rania Fawaz",
+    firstYearFrenchRepRole: "Représentante des étudiants francophones de 1re année",
+    firstYearFrenchRepDescription: "En tant que Représentante des étudiants francophones de 1re année, Rania soutient les étudiants de première année avec empathie et compréhension.",
+    thirdYearEnglishRepName: "Hanna Taylor Milne",
+    thirdYearEnglishRepRole: "Représentante des étudiants anglophones de 3e année",
+    thirdYearEnglishRepDescription: "En tant que Représentante des étudiants anglophones de 3e année, Hanna soutient les étudiants de troisième année avec enthousiasme et détermination.",
+    secondYearRepName: "Kevin Oberoi",
+    secondYearRepRole: "Représentant des étudiants de 2e année",
+    secondYearRepDescription: "En tant que Représentant des étudiants de 2e année, Kevin soutient les étudiants de deuxième année avec empathie et compréhension.",
+    internationalRepName: "Regis Privat Kalou",
+    internationalRepRole: "Représentant des étudiants internationaux",
+    internationalRepDescription: "En tant que Représentant des étudiants internationaux, Regis soutient les étudiants internationaux avec enthousiasme et détermination.",
+    contact: "Contact",
+    socialNetworks: "Réseaux Sociaux",
+    legalNotices: "Mentions Légales",
+    privacyPolicy: "Politique de Confidentialité",
+    termsOfUse: "Conditions d'Utilisation",
+    officeLocation: "Notre bureau est situé au local FSS 2034. C'est un endroit confortable où vous êtes toujours les bienvenus; visitez-nous quand vous le voulez!",
+    contactEmail: "Si vous avez des questions à propos de l'Association, son mandat, les postes ou pour trouver une façon de vous impliquer, veuillez nous contacter à <a href='mailto:council.conseil.api@gmail.com'>council.conseil.api@gmail.com</a>."
+  },
+  en: {
+    home: "Home",
+    presentation: "About",
+    team: "Team",
+    activities: "Activities",
+    planning: "Planning",
+    faq: "FAQ",
+    contact: "Contact",
+    teamTitle: "Our Team",
+    presidentName: "Boni Ruben-Benjamin Dombo",
+    presidentRole: "President",
+    presidentDescription: "As President, Boni leads the association with vision and passion.",
+    vicePresidentName: "Florian Placide",
+    vicePresidentRole: "Vice-President",
+    vicePresidentDescription: "As Vice-President, Florian supports the team with enthusiasm and determination.",
+    financeVPName: "Ange Hadassa Gertrude Kodji",
+    financeVPRole: "Vice-President of Finance",
+    financeVPDescription: "As Vice-President of Finance, Ange manages the association's financial resources with competence and rigor.",
+    internalSocialVPName: "Marie Christiana Joseph",
+    internalSocialVPRole: "Vice-President - Internal and Social",
+    internalSocialVPDescription: "As Vice-President - Internal and Social, Marie organizes events and activities for the association's members.",
+    firstYearFrenchRepName: "Rania Fawaz",
+    firstYearFrenchRepRole: "Representative of French-speaking First-Year Students",
+    firstYearFrenchRepDescription: "As Representative of French-speaking First-Year Students, Rania supports first-year students with empathy and understanding.",
+    thirdYearEnglishRepName: "Hanna Taylor Milne",
+    thirdYearEnglishRepRole: "Representative of English-speaking Third-Year Students",
+    thirdYearEnglishRepDescription: "As Representative of English-speaking Third-Year Students, Hanna supports third-year students with enthusiasm and determination.",
+    secondYearRepName: "Kevin Oberoi",
+    secondYearRepRole: "Representative of Second-Year Students",
+    secondYearRepDescription: "As Representative of Second-Year Students, Kevin supports second-year students with empathy and understanding.",
+    internationalRepName: "Regis Privat Kalou",
+    internationalRepRole: "Representative of International Students",
+    internationalRepDescription: "As Representative of International Students, Regis supports international students with enthusiasm and determination.",
+    contact: "Contact",
+    socialNetworks: "Social Networks",
+    legalNotices: "Legal Notices",
+    privacyPolicy: "Privacy Policy",
+    termsOfUse: "Terms of Use",
+    officeLocation: "Our office is located at FSS 2034. It's a comfortable place where you are always welcome; visit us whenever you want!",
+    contactEmail: "If you have any questions about the Association, its mandate, positions, or ways to get involved, please contact us at <a href='mailto:council.conseil.api@gmail.com'>council.conseil.api@gmail.com</a>."
+  },
+  es: {
+    home: "Inicio",
+    presentation: "Presentación",
+    team: "Equipo",
+    activities: "Actividades",
+    planning: "Planificación",
+    faq: "FAQ",
+    contact: "Contacto",
+    teamTitle: "Nuestro Equipo",
+    presidentName: "Boni Ruben-Benjamin Dombo",
+    presidentRole: "Presidente",
+    presidentDescription: "Como Presidente, Boni dirige la asociación con visión y pasión.",
+    vicePresidentName: "Florian Placide",
+    vicePresidentRole: "Vicepresidente",
+    vicePresidentDescription: "Como Vicepresidente, Florian apoya al equipo con entusiasmo y determinación.",
+    financeVPName: "Ange Hadassa Gertrude Kodji",
+    financeVPRole: "Vicepresidenta de Finanzas",
+    financeVPDescription: "Como Vicepresidenta de Finanzas, Ange gestiona los recursos financieros de la asociación con competencia y rigor.",
+    internalSocialVPName: "Marie Christiana Joseph",
+    internalSocialVPRole: "Vicepresidenta - Interna y Social",
+    internalSocialVPDescription: "Como Vicepresidenta - Interna y Social, Marie organiza eventos y actividades para los miembros de la asociación.",
+    firstYearFrenchRepName: "Rania Fawaz",
+    firstYearFrenchRepRole: "Representante de los Estudiantes Francófonos de 1er año",
+    firstYearFrenchRepDescription: "Como Representante de los Estudiantes Francófonos de 1er año, Rania apoya a los estudiantes de primer año con empatía y comprensión.",
+    thirdYearEnglishRepName: "Hanna Taylor Milne",
+    thirdYearEnglishRepRole: "Representante de los Estudiantes Anglófonos de 3er año",
+    thirdYearEnglishRepDescription: "Como Representante de los Estudiantes Anglófonos de 3er año, Hanna apoya a los estudiantes de tercer año con entusiasmo y determinación.",
+    secondYearRepName: "Kevin Oberoi",
+    secondYearRepRole: "Representante de los Estudiantes de 2do año",
+    secondYearRepDescription: "Como Representante de los Estudiantes de 2do año, Kevin apoya a los estudiantes de segundo año con empatía y comprensión.",
+    internationalRepName: "Regis Privat Kalou",
+    internationalRepRole: "Representante de los Estudiantes Internacionales",
+    internationalRepDescription: "Como Representante de los Estudiantes Internacionales, Regis apoya a los estudiantes internacionales con entusiasmo y determinación.",
+    contact: "Contacto",
+    socialNetworks: "Redes Sociales",
+    legalNotices: "Avisos Legales",
+    privacyPolicy: "Política de Privacidad",
+    termsOfUse: "Términos de Uso",
+    officeLocation: "Nuestro oficina está ubicada en FSS 2034. Es un lugar cómodo donde siempre eres bienvenido; ¡visítanos cuando quieras!",
+    contactEmail: "Si tienes alguna pregunta sobre la Asociación, su mandato, posiciones o formas de involucrarte, por favor contáctanos en <a href='mailto:council.conseil.api@gmail.com'>council.conseil.api@gmail.com</a>."
+  }
+};
+
+let currentLang = 'fr';
+
+function changeLanguage(lang) {
+  currentLang = lang;
+  updateLanguage();
+}
+
+function updateLanguage() {
+  document.querySelectorAll('[data-lang]').forEach(element => {
+    const key = element.getAttribute('data-lang');
+    if (translations[currentLang] && translations[currentLang][key]) {
+      element.textContent = translations[currentLang][key];
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.language-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const lang = button.getAttribute('data-lang');
+      changeLanguage(lang);
+    });
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Header scroll effect
+  let header = document.querySelector('.header');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 100) {
+      header.style.background = 'rgba(255, 255, 255, 0.95)';
+    } else {
+      header.style.background = 'rgba(255, 255, 255, 0.95)';
+    }
+  });
+
+  // Section reveal on scroll
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => observer.observe(section));
+});
+
+document.getElementById('hamburger').addEventListener('click', function() {
+    var navLinks = document.getElementById('nav-links');
+    if (navLinks.classList.contains('hidden')) {
+        navLinks.classList.remove('hidden');
+    } else {
+        navLinks.classList.add('hidden');
+    }
+});
+
+</script>
+
+</body>
+</html>
